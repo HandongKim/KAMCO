@@ -1,6 +1,14 @@
 <App>
 	<Router ux:Name="router" />
 
+	<JavaScript>
+		module.exports = {
+			go: function() {
+				router.push("conditionSearch");
+			}
+		};
+	</JavaScript>
+
 	<Rectangle ux:Class="selectBox" CornerRadius="2" Margin="2">
 		<Stroke Width="1" Color="#444" />
 	</Rectangle>
@@ -8,6 +16,7 @@
 	<Rectangle ux:Class="selectButton" CornerRadius="3" Width="25" Height="25">
 		<Stroke Width="1" Color="#18f" />
 	</Rectangle>
+
 	<Rectangle ux:Class="basicColumn" Color="#fff" CornerRadius="2" />
 
 	<Font File="Assets/NanumGothic.ttc" ux:Global="han" />
@@ -15,7 +24,33 @@
 	<Text ux:Class="selectText" Color="#000" Alignment="CenterLeft" Font="han" Margin="3,0" />
 
 	<ClientPanel>
-		<Navigator DefaultTemplate="welcomeAnimation">
+		<StackPanel ux:Name="sideMenu" Background="#62cdaf" Width="40%" Offset="-40%, 0" Alignment="Left">
+			<Panel Alignment="Right" Margin="5">
+				<Circle Alignment="Center" Color="#ee432f" Width="30" Height="30" ZOffset="0.2" />
+				<Circle Alignment="Center" Color="#ae31ee" Width="34" Height="34" ZOffset="0.1" />
+				<Rectangle Alignment="Center" Color="#000" Width="20" Height="2" CornerRadius="5" ZOffset="0.3" >
+					<Rotation Degrees="45" />
+				</Rectangle>
+				<Rectangle Alignment="Center" Color="#000" Width="20" Height="2" CornerRadius="5" ZOffset="0.3" >
+					<Rotation Degrees="-45" />
+				</Rectangle>
+
+				<Clicked>
+					<Toggle Target="onSidePanel" />
+				</Clicked>
+			</Panel>
+
+			<Button Text="temp" Clicked="{go}" />
+		</StackPanel>
+		
+		<Circle Alignment="BottomRight" Color="#356" Width="40" Height="40" Margin="5">
+			<Text Color="#fff" FontSize="13" Value="Menu" Alignment="Center" />
+			<Clicked>
+				<Toggle Target="onSidePanel" />
+			</Clicked>
+		</Circle>
+
+		<Navigator ux:Name="Contents" DefaultTemplate="welcomeAnimation">
 			<welcomeAnimation ux:Template="welcomeAnimation" router="router" />
 			<home ux:Template="home" router="router" />
 			<searchData ux:Template="searchData" router="router" />
@@ -25,5 +60,20 @@
 			<makingPage ux:Template="makingPage" router="router" />
 			<scrollingAnimation ux:Template="scrollingAnimation" router="router" />
 		</Navigator>
+
+		<SwipeGesture ux:Name="swipeRight" Direction="Right" Length="200" />
+		<SwipingAnimation Source="swipeRight">
+			<Set onSidePanel.Value="true" />
+		</SwipingAnimation>
+
+		<SwipeGesture ux:Name="swipeLeft" Direction="Left" Length="200" />
+		<SwipingAnimation Source="swipeLeft">
+			<Set onSidePanel.Value="false" />
+		</SwipingAnimation>
+
+		<WhileTrue ux:Name="onSidePanel">
+			<Change sideMenu.Offset="0, 0" Duration=".1" DurationBack=".05" />
+			<Change Contents.Offset="40%, 0" Duration=".1" DurationBack=".05" />
+		</WhileTrue>
 	</ClientPanel>
 </App>

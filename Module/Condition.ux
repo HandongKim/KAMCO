@@ -3,35 +3,6 @@
 
 	<JavaScript File="Condition.js" />
 
-	<Rectangle ux:Name="pickerPanel" Width="100%" Height="10" Color="#fff" CornerRadius="4" ZOffset="-1" Opacity="0" HitTestMode="None" Alignment="BottomCenter">
-
-		<Rectangle Alignment="TopRight" ZOffset="1" Margin="5" Width="20" Height="20" Color="#ddd" CornerRadius="2">
-			<Rectangle Width="15" Height="2" CornerRadius="1" Color="Black" >
-				<Rotation Degrees="45" />
-			</Rectangle>
-			<Rectangle Width="15" Height="2" CornerRadius="1" Color="Black" >
-				<Rotation Degrees="-45" />
-			</Rectangle>
-
-			<Clicked><Callback Handler="{closePanel}" /></Clicked>
-		</Rectangle>
-
-		<Picker Options="{options.sido}" Selected="{condition.sido}" ZOffset="{showPanel.sido}" Clicked="{selectSido}" />
-		<Picker Options="{options.sgk}" Selected="{condition.sgk}" ZOffset="{showPanel.sgk}" Clicked="{selectSgk}" />
-		<Picker Options="{options.emd}" Selected="{condition.emd}" ZOffset="{showPanel.emd}" Clicked="{selectEmd}" />
-		<Picker Options="{options.usageTop}" Selected="{condition.usageTop}" ZOffset="{showPanel.usageTop}" Clicked="{selectUsageTop}" />
-		<Picker Options="{options.usageMiddle}" Selected="{condition.usageMiddle}" ZOffset="{showPanel.usageMiddle}" Clicked="{selectUsageMiddle}" />
-		<Picker Options="{options.usageBottom}" Selected="{condition.usageBottom}" ZOffset="{showPanel.usageBottom}" Clicked="{selectUsageBottom}" />
-
-		<WhileTrue Value="{showPanel.base}">
-			<Change pickerPanel.Height="170" Duration="0.05" DurationBack="0" />
-			<Change pickerPanel.ZOffset="2" />
-			<Change pickerPanel.Opacity="1" />
-			<Change pickerPanel.HitTestMode="LocalBoundsAndChildren" />
-		</WhileTrue>
-
-	</Rectangle>
-
 	<StackPanel Background="#d0b5b6">
 		<Grid ColumnCount="2" Columns="1*, 2.5*" CellSpacing="2" Dock="Top" Height="150" Margin="2">
 			<basicColumn>
@@ -107,5 +78,34 @@
 				</WrapPanel>
 			</basicColumn>
 		</Grid>
+
+		<Rectangle ux:Name="pickerPanel" Width="100%" Height="10" Color="#fff" CornerRadius="4" ZOffset="-1" Opacity="0" HitTestMode="None" Alignment="BottomCenter">
+
+			<Rectangle Alignment="TopRight" ZOffset="1" Margin="5" Width="20" Height="20" Color="#ddd" CornerRadius="2">
+				<Rectangle Width="15" Height="2" CornerRadius="1" Color="Black" >
+					<Rotation Degrees="45" />
+				</Rectangle>
+				<Rectangle Width="15" Height="2" CornerRadius="1" Color="Black" >
+					<Rotation Degrees="-45" />
+				</Rectangle>
+
+				<Clicked><Callback Handler="{closePanel}" /></Clicked>
+			</Rectangle>
+
+			<Picker Options="{options.sido}" Selected="{condition.sido}" ZOffset="{showPanel.sido}" Clicked="{selectSido}" />
+			<Picker Options="{options.sgk}" Selected="{condition.sgk}" ZOffset="{showPanel.sgk}" Clicked="{selectSgk}" />
+			<Picker Options="{options.emd}" Selected="{condition.emd}" ZOffset="{showPanel.emd}" Clicked="{selectEmd}" />
+			<Picker Options="{options.usageTop}" Selected="{condition.usageTop}" ZOffset="{showPanel.usageTop}" Clicked="{selectUsageTop}" />
+			<Picker Options="{options.usageMiddle}" Selected="{condition.usageMiddle}" ZOffset="{showPanel.usageMiddle}" Clicked="{selectUsageMiddle}" />
+			<Picker Options="{options.usageBottom}" Selected="{condition.usageBottom}" ZOffset="{showPanel.usageBottom}" Clicked="{selectUsageBottom}" />
+
+			<WhileTrue Value="{showPanel.base}">
+				<Change pickerPanel.Height="170" Duration="0.05" DurationBack="0" />
+				<Change pickerPanel.ZOffset="2" />
+				<Change pickerPanel.Opacity="1" />
+				<Change pickerPanel.HitTestMode="LocalBoundsAndChildren" />
+			</WhileTrue>
+
+		</Rectangle>
 	</StackPanel>
 </Panel>

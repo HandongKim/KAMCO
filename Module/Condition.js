@@ -158,6 +158,8 @@ function saveCondition() {
 
 //시도 구역 선택
 function selectSido(arg) {
+	condition.value.sgk.value = "시군구";
+	condition.value.emd.value = "읍면동";
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.sido.value = "0";
 }
@@ -180,6 +182,7 @@ function getSido() {
 }
 //시군구 구역 선택
 function selectSgk(arg) {
+	condition.value.emd.value = "읍면동";
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.sgk.value = "0";
 }
@@ -226,6 +229,8 @@ function getEmd() {
 }
 
 function selectUsageTop(arg) {
+	condition.value.usageMiddle.value = "용도1";
+	condition.value.usageBottom.value = "용도3";
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.usageTop.value = "0";
 }
@@ -251,6 +256,7 @@ function getUsageTop() {
 }
 
 function selectUsageMiddle(arg) {
+	condition.value.usageBottom.value = "용도3";
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.usageMiddle.value = "0";
 }
