@@ -3,85 +3,98 @@
 
 	<JavaScript File="Condition.js" />
 
-	<StackPanel Background="#d0b5b6">
-		<Grid ColumnCount="2" Columns="1*, 2.5*" CellSpacing="2" Dock="Top" Height="150" Margin="2">
-			<basicColumn>
-				<selectText Value="처분 방식" />
-			</basicColumn>
-			<basicColumn>
-				<selectBar Options="{options.sellType}" Selected="{condition.sellType}" ColumnCount="3" Width="135" Height="25" />
-			</basicColumn>
+	<DockPanel Background="#d0b5b6">
+		<StackPanel Dock="Fill">
+			<Grid ColumnCount="2" Columns="1*, 2.5*" CellSpacing="2" Dock="Top" Height="150" Margin="2">
+				<basicColumn>
+					<selectText Value="처분방식" />
+				</basicColumn>
+				<basicColumn>
+					<selectBar Options="{options.sellType}" Selected="{condition.sellType}" ColumnCount="3" Width="135" Height="25" />
+				</basicColumn>
 
-			<basicColumn>
-				<selectText Font="han" Value="입찰 기간" Alignment="CenterLeft" />
-			</basicColumn>
-			<basicColumn>
-				<selectBar Options="{options.date}" Selected="{condition.date}" ColumnCount="2" Width="180" Height="25" />
-			</basicColumn>
+				<basicColumn>
+					<selectText Font="han" Value="입찰기간" Alignment="CenterLeft" />
+				</basicColumn>
+				<basicColumn>
+					<selectBar Options="{options.date}" Selected="{condition.date}" ColumnCount="2" Width="180" Height="25" />
+				</basicColumn>
 
-			<basicColumn>
-				<selectText Font="han" Value="자산구분" Alignment="CenterLeft" />
-			</basicColumn>
-			<basicColumn>
-				<WrapPanel ItemWidth="30" Alignment="CenterLeft">
-					<Each Items="{condition.assetType}">
-						<selectButton ux:Name="selectButton">
-							<Text ux:Name="buttonText" Font="han" FontSize="10" Color="#18f" Value="{name}" Alignment="Center" />
+				<basicColumn>
+					<selectText Font="han" Value="자산구분" Alignment="CenterLeft" />
+				</basicColumn>
+				<basicColumn>
+					<WrapPanel ItemWidth="30" Alignment="CenterLeft">
+						<Each Items="{condition.assetType}">
+							<selectButton ux:Name="selectButton">
+								<Text ux:Name="buttonText" Font="han" FontSize="10" Color="#18f" Value="{name}" Alignment="Center" />
 
-							<Clicked>
-								<Callback Handler="{assetTypeSelect}" />
-							</Clicked>
-							<WhileTrue Value="{selected}">
-								<Change selectButton.Color="#18f" Duration=".1" />
-								<Change buttonText.Color="#fff" Duration=".1" />
-							</WhileTrue>
-						</selectButton>
-					</Each>
-				</WrapPanel>
-			</basicColumn>
+								<Clicked>
+									<Callback Handler="{assetTypeSelect}" />
+								</Clicked>
+								<WhileTrue Value="{selected}">
+									<Change selectButton.Color="#18f" Duration=".1" />
+									<Change buttonText.Color="#fff" Duration=".1" />
+								</WhileTrue>
+							</selectButton>
+						</Each>
+					</WrapPanel>
+				</basicColumn>
 
-			<basicColumn>
-				<selectText Font="han" Value="용도" Alignment="CenterLeft" />
-			</basicColumn>
-			<basicColumn>
-				<WrapPanel Alignment="CenterLeft">
-					<selectBox>
-						<selectText Value="{condition.usageTop}" Clicked="{getUsageTop}" />
-					</selectBox>
+				<basicColumn>
+					<selectText Font="han" Value="용도" Alignment="CenterLeft" />
+				</basicColumn>
+				<basicColumn>
+					<WrapPanel Alignment="CenterLeft">
+						<selectBox>
+							<selectText Value="{condition.usageTop}" Clicked="{getUsageTop}" />
+						</selectBox>
 
-					<selectBox>
-						<selectText Value="{condition.usageMiddle}" Clicked="{getUsageMiddle}" />
-					</selectBox>
+						<selectBox>
+							<selectText Value="{condition.usageMiddle}" Clicked="{getUsageMiddle}" />
+						</selectBox>
 
-					<selectBox>
-						<selectText Value="{condition.usageBottom}" Clicked="{getUsageBottom}" />
-					</selectBox>
-				</WrapPanel>
-			</basicColumn>
+						<selectBox>
+							<selectText Value="{condition.usageBottom}" Clicked="{getUsageBottom}" />
+						</selectBox>
+					</WrapPanel>
+				</basicColumn>
 
-			<basicColumn>
-				<selectText Font="han" Value="소재지" Alignment="CenterLeft" />
-			</basicColumn>
-			<basicColumn>
-				<WrapPanel Alignment="CenterLeft">
-					<selectBox>
-						<selectText Value="{condition.sido}" Clicked="{getSido}" />
-					</selectBox>
+				<basicColumn>
+					<selectText Font="han" Value="소재지" Alignment="CenterLeft" />
+				</basicColumn>
+				<basicColumn>
+					<WrapPanel Alignment="CenterLeft">
+						<selectBox>
+							<selectText Value="{condition.sido}" Clicked="{getSido}" />
+						</selectBox>
+						<selectBox>
+							<selectText Value="{condition.sgk}" Clicked="{getSgk}" />
+						</selectBox>
 
-					<selectBox>
-						<selectText Value="{condition.sgk}" Clicked="{getSgk}" />
-					</selectBox>
+						<selectBox>
+							<selectText Value="{condition.emd}" Clicked="{getEmd}" />
+						</selectBox>
+					</WrapPanel>
+				</basicColumn>
+			</Grid>
+		</StackPanel>
 
-					<selectBox>
-						<selectText Value="{condition.emd}" Clicked="{getEmd}" />
-					</selectBox>
-				</WrapPanel>
-			</basicColumn>
-		</Grid>
+		<Panel ux:Name="pickerDock" Dock="Bottom" Width="100%" Height="0" HitTestMode="None" Opacity="-1" ZOffset="-1">
+			<StackPanel ux:Name="pickerBackground" Opacity="-1" ZOffset="0.9">
+				<Panel Width="100%" Height="70">
+					<ImageFill File="../Assets/picker.jpg" Color="#fff5"/>
+				</Panel>
+				<Rectangle Width="200" Height="30" CornerRadius="5">
+					<Stroke Width="2" Color="Blue" />
+				</Rectangle>
+				<Panel Width="100%" Height="70">
+					<Rotation Degrees="180" />
+					<ImageFill File="../Assets/picker.jpg" Color="#fff5"/>
+				</Panel>
+			</StackPanel>
 
-		<Rectangle ux:Name="pickerPanel" Width="100%" Height="10" Color="#fff" CornerRadius="4" ZOffset="-1" Opacity="0" HitTestMode="None" Alignment="BottomCenter">
-
-			<Rectangle Alignment="TopRight" ZOffset="1" Margin="5" Width="20" Height="20" Color="#ddd" CornerRadius="2">
+			<Rectangle ux:Name="closeButton" Alignment="TopRight" ZOffset="1" Margin="5" Width="20" Height="20" Opacity="-1" Color="#ddd" CornerRadius="2">
 				<Rectangle Width="15" Height="2" CornerRadius="1" Color="Black" >
 					<Rotation Degrees="45" />
 				</Rectangle>
@@ -100,12 +113,13 @@
 			<Picker Options="{options.usageBottom}" Selected="{condition.usageBottom}" ZOffset="{showPanel.usageBottom}" Clicked="{selectUsageBottom}" />
 
 			<WhileTrue Value="{showPanel.base}">
-				<Change pickerPanel.Height="170" Duration="0.05" DurationBack="0" />
-				<Change pickerPanel.ZOffset="2" />
-				<Change pickerPanel.Opacity="1" />
-				<Change pickerPanel.HitTestMode="LocalBoundsAndChildren" />
+				<Change pickerDock.Height="170" Duration=".1" Easing="CubicOut"/>
+				<Change pickerDock.HitTestMode="LocalBoundsAndChildren" />
+				<Change pickerDock.Opacity="1" Delay=".1" DelayBack="0"/>
+				<Change closeButton.Opacity="1" Delay=".1" DelayBack="0"/>
+				<Change pickerBackground.Opacity="1" Delay=".1" DelayBack="0"/>
 			</WhileTrue>
 
-		</Rectangle>
-	</StackPanel>
+		</Panel>
+	</DockPanel>
 </Panel>

@@ -3,6 +3,7 @@
 	<string ux:Property="Selected" />
 
 	<JavaScript>
+		var Observable = require('FuseJS/Observable');
 		var pickerData = this.Options.inner();
 
 		var options = pickerData.map(function(option) {
@@ -11,8 +12,22 @@
 			}
 		})
 
+		var scrollPosition = Observable(0, 0);
+
+		function scrollUp() {
+			if (scrollPosition.value >0) {
+				scrollPosition.value += 30;
+			}
+		}
+
+		function scrollDown() {
+			if (scrollPosition.value > 0) {
+				scrollPosition.value -= 30;
+			}
+		}
+
 		module.exports = {
-			options
+			options, scrollPosition, scrollUp, scrollDown
 		};
 	</JavaScript>
 
@@ -27,7 +42,7 @@
 	</Rectangle>
 
 	<Rectangle Color="#fff" Width="100%" Height="170" ZOffset="0.2">
-		<StackPanel ZOffset="0.3">
+<!--		<StackPanel ZOffset="0.3">
 			<Panel Width="100%" Height="70">
 				<ImageFill File="../Assets/picker.jpg" Color="#fff5"/>
 			</Panel>
@@ -38,7 +53,7 @@
 				<Rotation Degrees="180" />
 				<ImageFill File="../Assets/picker.jpg" Color="#fff5"/>
 			</Panel>
-		</StackPanel>
+		</StackPanel>-->
 		<ScrollView>
 			<StackPanel>
 				<Rectangle Height="70" />
@@ -51,5 +66,13 @@
 				<Rectangle Height="70" />
 			</StackPanel>
 		</ScrollView>
+
+		<SwipeGesture ux:Name="pickerScrollUp" Direction="Up" Length="30" />
+		<SwipingAnimation Source="pickerScrollUp">
+		</SwipingAnimation>
+
+		<SwipeGesture ux:Name="pickerScrollDown" Direction="Up" Length="30" />
+		<SwipingAnimation Source="pickerScrollDown">
+		</SwipingAnimation>
 	</Rectangle>
 </Panel>

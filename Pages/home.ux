@@ -2,24 +2,30 @@
 	<Router ux:Dependency="router" />
 
 	<JavaScript>
+		var Observable = require('FuseJS/Observable');
+		var Storage = require('FuseJS/Storage');
+
+		var conditions = Observable();
+
+		Storage.read("conditions.txt").then(function(data) {
+			var temp = JSON.parse(data);
+			temp.forEach(function(item) {
+				conditions.add(item);
+			})
+		});
+
+		function goConditionSearch(arg) {
+			console.log(JSON.stringify(arg.data));
+//			router.push("conditionSearch", arg.data);
+		}
+
 		module.exports = {
+			conditions, goConditionSearch,
 			goSearchData: function() {
 				router.push("searchData");
 			},
-			goConditionSearch: function() {
-				router.push("conditionSearch");
-			},
 			goConditionSetting: function() {
 				router.push("conditionSetting");
-			},
-			goMakingPage: function() {
-				router.push("makingPage");
-			},
-			goScrollingAnimation: function() {
-				router.push("scrollingAnimation");
-			},
-			goAnimation: function() {
-				router.push("welcomeAnimation");
 			}
 		}
 	</JavaScript>
@@ -31,28 +37,67 @@
 		</WhilePressed>
 	</Rectangle>
 
+	<Panel ux:Class="homeButton" BoxSizing="FillAspect" Aspect="1" Alignment="Left">
+		<Rectangle ux:Name="contentsRec" Width="100%" Height="100%" Color="#1eb1ed" Alignment="Left" CornerRadius="3">
+			<Text Font="han" Value="{number}" Alignment="Center" Color="#000" />
+
+			<Clicked>
+				<Callback Handler="{goConditionSearch}" />
+				<Set buttonChange.Value="false" />
+			</Clicked>
+		</Rectangle>
+
+		<Rectangle ux:Name="changeRec" Width="29%" Height="49%" Alignment="TopRight" Color="#1eb1ed" CornerRadius="3" Opacity="0">
+			<Text Value="수정" Font="han" FontSize="20" Alignment="Center" Color="#000" TextWrapping="Wrap" Width="20" />
+		</Rectangle>
+		<Rectangle ux:Name="deleteRec" Width="29%" Height="49%" Alignment="BottomRight" Color="#1eb1ed" CornerRadius="3" Opacity="0">
+			<Text Value="삭제" Font="han" FontSize="20" Alignment="Center" Color="#000" TextWrapping="Wrap" Width="20" />
+		</Rectangle>
+
+		<SwipeGesture ux:Name="forButtonChange" Direction="Left" Length="30" />
+		<SwipingAnimation Source="forButtonChange">
+			<Set buttonChange.Value="true" />
+		</SwipingAnimation>
+
+		<SwipeGesture ux:Name="cancel" Direction="Right" Length="30" />
+		<SwipingAnimation Source="cancel">
+			<Set buttonChange.Value="false" />
+		</SwipingAnimation>
+
+		<WhileTrue ux:Name="buttonChange">
+			<Change contentsRec.Width="69%" Duration=".15" />
+			<Change changeRec.Opacity="1" Delay=".2" Duration=".05" />
+			<Change deleteRec.Opacity="1" Delay=".2" Duration=".05" />
+		</WhileTrue>
+	</Panel>
+
 	<DockPanel>
 		<Panel Height="50" Dock="Top">
 			<Text FontSize="30" Alignment="Center" Value="Title" />
 		</Panel>
-		<StackPanel Background="#d0b5b6" Dock="Fill">
-			<Grid ColumnCount="2" Columns="1*, 1*" RowCount="2" Rows="1*, 1*" BoxSizing="FillAspect" Aspect="1" Margin="10">
-				<Panel Width="90%" BoxSizing="FillAspect" Aspect="1" Alignment="Center" Background="#1eb1ed">
-					<Rectangle Width="80%" Height="30%" Color="#4f6ac5" ZOffset=".9" Alignment="Center" />
-					<Rectangle Width="30%" Height="80%" Color="#4f6ac5" ZOffset=".9" Alignment="Center" />
-					<Rectangle Width="82%" Height="32%" Color="#000" ZOffset=".8" Alignment="Center" />
-					<Rectangle Width="32%" Height="82%" Color="#000" ZOffset=".8" Alignment="Center" />
-					<Text Font="han" FontSize="25" Color="#fff" Value="조건 추가" Alignment="Center" ZOffset="1" />
+		<ScrollView Dock="Fill" SnapMinTransform="false" SnapMaxTransform="false">
+			<StackPanel Background="#d0b5b6">
+				<Grid ColumnCount="2" Columns="1*, 1*" RowCount="5" Rows="1*, 1*, 1*, 1*, 1*" BoxSizing="FillAspect" Aspect="0.4" Margin="20" CellSpacing="20">
+					<Each Items="{conditions}">
+						<homeButton />
+					</Each>
+					<Panel Width="90%" BoxSizing="FillAspect" Aspect="1" Alignment="Center" Background="#1eb1ed">
+						<Rectangle Width="80%" Height="30%" Color="#4f6ac5" ZOffset=".9" Alignment="Center" />
+						<Rectangle Width="30%" Height="80%" Color="#4f6ac5" ZOffset=".9" Alignment="Center" />
+						<Rectangle Width="82%" Height="32%" Color="#000" ZOffset=".8" Alignment="Center" />
+						<Rectangle Width="32%" Height="82%" Color="#000" ZOffset=".8" Alignment="Center" />
+						<Text Font="han" FontSize="24" Color="#fff" Value="조건추가" Alignment="Center" ZOffset="1" />
 
-					<Clicked>
-						<Callback Handler="{goConditionSetting}" />
-					</Clicked>
-				</Panel>
-			</Grid>
-		</StackPanel>
+						<Clicked>
+							<Callback Handler="{goConditionSetting}" />
+						</Clicked>
+					</Panel>
+				</Grid>
+			</StackPanel>
+		</ScrollView>
 	</DockPanel>
-
-<!--	<StackPanel>
+<!--
+	<StackPanel>
 		<Grid ColumnCount="4" Columns="1*, 1*, 1*, 1*" RowCount="4" Rows="1*, 1*, 1*, 1*" CellSpacing="3" Width="100%" BoxSizing="FillAspect" Aspect="1" Margin="3">
 			<menuButton ColumnSpan="4" Color="#19f" Clicked="{goSearchData}">
 				<Text Font="han" Value="일반 검색" FontSize="30" Alignment="Center" />
@@ -77,5 +122,6 @@
 				<Text Font="han" Value="시작화면" FontSize="15" Alignment="Center" />
 			</menuButton>
 		</Grid>
-	</StackPanel>-->
+	</StackPanel>
+-->
 </Page>

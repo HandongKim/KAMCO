@@ -52,57 +52,6 @@ var showPanel = {
 	usageBottom: Observable("0")
 };
 
-var conditions = {
-	condition1: {
-		sellType: "",
-		bgDate: "",
-		clsDate: "",
-		assetType: "",
-		sido: "",
-		sgk: "",
-		emd: "",
-		usageTop: "",
-		usageMiddle: "",
-		usageBottom: ""
-	},
-	condition2: {
-		sellType: "",
-		bgDate: "",
-		clsDate: "",
-		assetType: "",
-		sido: "",
-		sgk: "",
-		emd: "",
-		usageTop: "",
-		usageMiddle: "",
-		usageBottom: ""
-	},
-	condition3: {
-		sellType: "",
-		bgDate: "",
-		clsDate: "",
-		assetType: "",
-		sido: "",
-		sgk: "",
-		emd: "",
-		usageTop: "",
-		usageMiddle: "",
-		usageBottom: ""
-	},
-	condition4: {
-		sellType: "",
-		bgDate: "",
-		clsDate: "",
-		assetType: "",
-		sido: "",
-		sgk: "",
-		emd: "",
-		usageTop: "",
-		usageMiddle: "",
-		usageBottom: ""
-	}
-};
-
 // 날짜를 온비드 형식에 맞추어 반환
 function callDate(year, month, date) {
 	month += 1;
@@ -115,45 +64,6 @@ function callDate(year, month, date) {
 	}
 
 	return "" + year + month + date;
-}
-
-// 검색조건을 저장하는 함수
-function saveCondition() {
-	conditions.condition1.sellType = condition.sellType.value;
-	var date = new Date();
-	if (condition.date.value == "7일 이내") {
-		conditions.condition1.bgDate = callDate(date.getFullYear(), date.getMonth(), date.getDate());
-
-		date.setDate(date.getDate()+7);
-		conditions.condition1.clsDate = callDate(date.getFullYear(), date.getMonth(), date.getDate());
-	} else if (condition.date.value == "30일 이내") {
-		conditions.condition1.bgDate = callDate(date.getFullYear(), date.getMonth(), date.getDate());
-
-		date.setDate(date.getDate()+30);
-		conditions.condition1.clsDate = callDate(date.getFullYear(), date.getMonth(), date.getDate());
-	}
-	options.assetType.forEach(function(data) {
-		if(data.selected.value == true) {
-			conditions.condition1.assetType += data.name;
-		}
-	});
-	conditions.condition1.sido = condition.sido.value;
-	conditions.condition1.sgk = condition.sgk.value;
-	conditions.condition1.emd = condition.emd.value;
-	conditions.condition1.usageTop = condition.usageTop.value;
-	conditions.condition1.usageMiddle = condition.usageMiddle.value;
-	conditions.condition1.usageBottom = condition.usageBottom.value;
-
-	console.log(JSON.stringify(conditions.condition1));
-// condition 저장.
-	Storage.write("conditions.txt", JSON.stringify(conditions))
-		.then(function(succeeded) {
-	        if(succeeded) {
-				console.log("Successfully wrote condition to file.");
-			} else {
-				console.log("Couldn't write condition to file.");
-			}
-		});
 }
 
 //시도 구역 선택
@@ -229,7 +139,7 @@ function getEmd() {
 }
 
 function selectUsageTop(arg) {
-	condition.value.usageMiddle.value = "용도1";
+	condition.value.usageMiddle.value = "용도2";
 	condition.value.usageBottom.value = "용도3";
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.usageTop.value = "0";
@@ -344,5 +254,5 @@ module.exports = {
 
 	usage, getUsageTop, getUsageMiddle, getUsageBottom, selectUsageTop, selectUsageMiddle, selectUsageBottom,
 
-	saveCondition, assetTypeSelect
+	assetTypeSelect
 };

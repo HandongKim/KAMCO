@@ -20,8 +20,14 @@ var condition = {
     usageBottom: Observable("용도3")
 };
 
-
-var conditions = Observable();
+var conditions = [];
+//저장된 검색조건을 불러옴.
+Storage.read("conditions.txt").then(function(data) {
+	var temp = JSON.parse(data);
+	temp.forEach(function(item) {
+		conditions.push(item);
+	})
+});
 
 // 날짜를 온비드 형식에 맞추어 반환
 function callDate(year, month, date) {
@@ -37,27 +43,12 @@ function callDate(year, month, date) {
 	return "" + year + month + date;
 }
 
-function addCondition(i, sellType, date, assetType, sido, sgk, emd, usageTop, usageMiddle, usageBottom){
+function addCondition(i, sellType, bgDate, clsDate, assetType, sido, sgk, emd, usageTop, usageMiddle, usageBottom){
 	this.number = i;
 	this.sellType = sellType;
-	var date = new Date();
-	if (date == "7일 이내") {
-		this.bgDate = callDate(date.getFullYear(), date.getMonth(), date.getDate());
-
-		date.setDate(date.getDate()+7);
-		this.clsDate = callDate(date.getFullYear(), date.getMonth(), date.getDate());
-	} else if (date == "30일 이내") {
-		this.bgDate = callDate(date.getFullYear(), date.getMonth(), date.getDate());
-
-		date.setDate(date.getDate()+30);
-		this.clsDate = callDate(date.getFullYear(), date.getMonth(), date.getDate());
-	}
-	this.assetType = "";
-	assetType.forEach(function(data) {
-		if(data.selected.value == true) {
-			this.assetType += data.name;
-		}
-	});
+	this.bgDate = bgDate;
+	this.clsDate = clsDate;
+	this.assetType = assetType;
 	this.sido = sido;
 	this.sgk = sgk;
 	this.emd = emd;
@@ -69,10 +60,33 @@ function addCondition(i, sellType, date, assetType, sido, sgk, emd, usageTop, us
 // 검색조건을 저장하는 함수
 function saveCondition() {
 	var i = conditions.length;
-	conditions.add(new addCondition(i+1, condition.sellType.value, condition.date.value, condition.assetType, condition.sido.value, condition.sgk.value, condition.emd.value, condition.usageTop.value, condition.usageMiddle.value, condition.usageBottom.value));
+	var bgDate, clsDate;
+	var assetType = "";
 
+	var date = new Date();
+	if (condition.date.value == "7일 이내") {
+		bgDate = callDate(date.getFullYear(), date.getMonth(), date.getDate());
+
+		date.setDate(date.getDate()+7);
+		clsDate = callDate(date.getFullYear(), date.getMonth(), date.getDate());
+	} else if (condition.date.value == "30일 이내") {
+		bgDate = callDate(date.getFullYear(), date.getMonth(), date.getDate());
+
+		date.setDate(date.getDate()+30);
+		clsDate = callDate(date.getFullYear(), date.getMonth(), date.getDate());
+	}
+
+	condition.assetType.forEach(function(data) {
+		if(data.selected.value == true) {
+			assetType += data.name;
+		}
+	});
+
+	conditions.push(new addCondition(i+1, condition.sellType.value, bgDate, clsDate, assetType, condition.sido.value, condition.sgk.value, condition.emd.value, condition.usageTop.value, condition.usageMiddle.value, condition.usageBottom.value));
+
+	console.log(JSON.stringify(conditions));
 // condition 저장.
-	Storage.write("conditions.txt", JSON.stringify(conditions.value))
+	Storage.write("conditions.txt", JSON.stringify(conditions))
 		.then(function(succeeded) {
 	        if(succeeded) {
 				console.log("Successfully wrote condition to file.");

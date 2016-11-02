@@ -1,6 +1,64 @@
 <Page ux:Class="conditionSearch">
 	<Router ux:Dependency="router" />
 	<JavaScript>
+		var condition;
+		var param;
+
+		this.Parameter.onValueChanged(function(x) {
+			condition = x;
+			console.log(JSON.stringify(condition));
+			checkCondition();
+			console.log(param);
+		})
+
+		function checkCondition() {
+		// 타입 선택에 따른 param 추가
+			if (condition.sellType == "전체") {
+				param = "" + "&DPSL_MTD_CD=ALL";
+			} else if (condition.sellType == "매각") {
+				param = "" + "&DPSL_MTD_CD=0001";
+			} else if (condition.sellType == "임대") {
+				param = "" + "&DPSL_MTD_CD=0002";
+			}
+
+		// 기간 선택에 따른 param 추가
+			if (condition.bgDate != null) {
+				param += "&PBCT_BEGN_DTM=" + condition.bgDate;
+				param += "&PBCT_CLS_DTM=" + condition.clsDate;
+			}
+
+		// 주소 선택에 따른 param 추가
+			if (condition.emd != "읍면동") {
+				param += "&EMD=" + encodeURI(condition.emd);
+			}
+			if (condition.sgk != "시군구") {
+				param += "&SGK=" + encodeURI(condition.sgk);
+			}
+			if (condition.emd != "시도") {
+				param += "&SIDO=" + encodeURI(condition.sido);
+			}
+		}
+
+		// 온비드에서 물건 검색하는 함수
+		function searchData() {
+			checkCondition();
+
+		// 검색 url
+			var url = "http://openapi.onbid.co.kr/openapi/services/KamcoPblsalThingInquireSvc/getKamcoSaleList?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D" + param;
+
+			showItems.clear()
+			Backend.getData(url).then(function(items) {
+				for (var i = 0 ; i < items.response.body.items.length-1 ; i++) {
+					if (items.response.body.items[i].item.PLNM_NO != items.response.body.items[i+1].item.PLNM_NO) {
+						showItems.add(items.response.body.items[i]);
+					}
+					if (i == items.response.body.items.length-2) {
+						showItems.add(items.response.body.items[i+1]);
+					}
+				}
+			});
+		}
+
 		module.exports = {
 			goConditionSetting: function(){
 				router.push("conditionSetting");

@@ -21,45 +21,32 @@
 
 	<Font File="Assets/NanumGothic.ttc" ux:Global="han" />
 
-	<Text ux:Class="selectText" Color="#000" Alignment="CenterLeft" Font="han" Margin="3,0" />
+	<Text ux:Class="selectText" Color="#000" Alignment="CenterLeft" Font="han" Margin="3,0" MaxLength="4" />
 
 	<ClientPanel>
-		<StackPanel ux:Name="sideMenu" Background="#62cdaf" Width="40%" Offset="-40%, 0" Alignment="Left">
-			<Panel Alignment="Right" Margin="5">
-				<Circle Alignment="Center" Color="#ee432f" Width="30" Height="30" ZOffset="0.2" />
-				<Circle Alignment="Center" Color="#ae31ee" Width="34" Height="34" ZOffset="0.1" />
-				<Rectangle Alignment="Center" Color="#000" Width="20" Height="2" CornerRadius="5" ZOffset="0.3" >
-					<Rotation Degrees="45" />
-				</Rectangle>
-				<Rectangle Alignment="Center" Color="#000" Width="20" Height="2" CornerRadius="5" ZOffset="0.3" >
-					<Rotation Degrees="-45" />
-				</Rectangle>
-
-				<Clicked>
-					<Toggle Target="onSidePanel" />
-				</Clicked>
-			</Panel>
-
-			<Button Text="temp" Clicked="{go}" />
-		</StackPanel>
+		<SideMenu ux:Name="sideMenu" Background="#62cdaf" Width="40%" Offset="-40%, 0" Alignment="Left"/>
 		
-		<Circle Alignment="BottomRight" Color="#356" Width="40" Height="40" Margin="5">
+		<Circle ux:Name="menuToggle" Alignment="BottomRight" Color="#356" Width="40" Height="40" Margin="5">
 			<Text Color="#fff" FontSize="13" Value="Menu" Alignment="Center" />
 			<Clicked>
 				<Toggle Target="onSidePanel" />
 			</Clicked>
 		</Circle>
 
-		<Navigator ux:Name="Contents" DefaultTemplate="welcomeAnimation">
-			<welcomeAnimation ux:Template="welcomeAnimation" router="router" />
-			<home ux:Template="home" router="router" />
-			<searchData ux:Template="searchData" router="router" />
-			<detailData ux:Template="detailData" router="router" />
-			<conditionSearch ux:Template="conditionSearch" router="router" />
-			<conditionSetting ux:Template="conditionSetting" router="router" />
-			<makingPage ux:Template="makingPage" router="router" />
-			<scrollingAnimation ux:Template="scrollingAnimation" router="router" />
-		</Navigator>
+		<DockPanel>
+			<Navigator ux:Name="Contents" DefaultTemplate="welcomeAnimation">
+				<welcomeAnimation ux:Template="welcomeAnimation" router="router" />
+				<home ux:Template="home" router="router" />
+				<searchData ux:Template="searchData" router="router" />
+				<detailData ux:Template="detailData" router="router" />
+				<conditionSearch ux:Template="conditionSearch" router="router" />
+				<conditionSetting ux:Template="conditionSetting" router="router" />
+				<makingPage ux:Template="makingPage" router="router" />
+				<scrollingAnimation ux:Template="scrollingAnimation" router="router" />
+			</Navigator>
+
+			
+		</DockPanel>
 
 		<SwipeGesture ux:Name="swipeRight" Direction="Right" Length="200" />
 		<SwipingAnimation Source="swipeRight">
