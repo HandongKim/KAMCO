@@ -14,85 +14,57 @@
 			})
 		});
 
-		function goConditionSearch(arg) {
-			console.log(JSON.stringify(arg.data));
-//			router.push("conditionSearch", arg.data);
-		}
-
 		module.exports = {
-			conditions, goConditionSearch,
+			conditions,
 			goSearchData: function() {
 				router.push("searchData");
 			},
 			goConditionSetting: function() {
 				router.push("conditionSetting");
+			},
+			changeCondition: function(arg) {
+				router.push("conditionSetting", arg.data);
+			},
+			deleteCondition: function(arg) {
+				var i = arg.data.number;
+				var temp = [];
+				conditions.remove(arg.data);
+
+				conditions.forEach(function(item) {
+					if (item.number > i) {
+						item.number -= 1;
+						item.delay -= 0.1;
+					}
+					temp.push(item);
+				});
+				Storage.write("conditions.txt", JSON.stringify(temp));
+			},
+			goConditionSearch: function(arg) {
+				router.push("conditionSearch", arg.data);
 			}
 		}
 	</JavaScript>
 
-	<Rectangle ux:Class="menuButton" CornerRadius="3">
-		<Stroke Width="1" Color="#eee" />
-		<WhilePressed>
-			<Scale Factor="0.95" />
-		</WhilePressed>
-	</Rectangle>
-
-	<Panel ux:Class="homeButton" BoxSizing="FillAspect" Aspect="1" Alignment="Left">
-		<Rectangle ux:Name="contentsRec" Width="100%" Height="100%" Color="#1eb1ed" Alignment="Left" CornerRadius="3">
-			<Text Font="han" Value="{number}" Alignment="Center" Color="#000" />
-
-			<Clicked>
-				<Callback Handler="{goConditionSearch}" />
-				<Set buttonChange.Value="false" />
-			</Clicked>
-		</Rectangle>
-
-		<Rectangle ux:Name="changeRec" Width="29%" Height="49%" Alignment="TopRight" Color="#1eb1ed" CornerRadius="3" Opacity="0">
-			<Text Value="수정" Font="han" FontSize="20" Alignment="Center" Color="#000" TextWrapping="Wrap" Width="20" />
-		</Rectangle>
-		<Rectangle ux:Name="deleteRec" Width="29%" Height="49%" Alignment="BottomRight" Color="#1eb1ed" CornerRadius="3" Opacity="0">
-			<Text Value="삭제" Font="han" FontSize="20" Alignment="Center" Color="#000" TextWrapping="Wrap" Width="20" />
-		</Rectangle>
-
-		<SwipeGesture ux:Name="forButtonChange" Direction="Left" Length="30" />
-		<SwipingAnimation Source="forButtonChange">
-			<Set buttonChange.Value="true" />
-		</SwipingAnimation>
-
-		<SwipeGesture ux:Name="cancel" Direction="Right" Length="30" />
-		<SwipingAnimation Source="cancel">
-			<Set buttonChange.Value="false" />
-		</SwipingAnimation>
-
-		<WhileTrue ux:Name="buttonChange">
-			<Change contentsRec.Width="69%" Duration=".15" />
-			<Change changeRec.Opacity="1" Delay=".2" Duration=".05" />
-			<Change deleteRec.Opacity="1" Delay=".2" Duration=".05" />
-		</WhileTrue>
-	</Panel>
-
 	<DockPanel>
 		<Panel Height="50" Dock="Top">
-			<Text FontSize="30" Alignment="Center" Value="Title" />
+			<Text Font="han" FontSize="30" Alignment="Center" Value="온비드 간편검색" />
 		</Panel>
 		<ScrollView Dock="Fill" SnapMinTransform="false" SnapMaxTransform="false">
-			<StackPanel Background="#d0b5b6">
-				<Grid ColumnCount="2" Columns="1*, 1*" RowCount="5" Rows="1*, 1*, 1*, 1*, 1*" BoxSizing="FillAspect" Aspect="0.4" Margin="20" CellSpacing="20">
-					<Each Items="{conditions}">
-						<homeButton />
-					</Each>
-					<Panel Width="90%" BoxSizing="FillAspect" Aspect="1" Alignment="Center" Background="#1eb1ed">
-						<Rectangle Width="80%" Height="30%" Color="#4f6ac5" ZOffset=".9" Alignment="Center" />
-						<Rectangle Width="30%" Height="80%" Color="#4f6ac5" ZOffset=".9" Alignment="Center" />
-						<Rectangle Width="82%" Height="32%" Color="#000" ZOffset=".8" Alignment="Center" />
-						<Rectangle Width="32%" Height="82%" Color="#000" ZOffset=".8" Alignment="Center" />
-						<Text Font="han" FontSize="24" Color="#fff" Value="조건추가" Alignment="Center" ZOffset="1" />
+			<StackPanel Background="#f3f3f3">
+				<Each Items="{conditions}">
+					<homeButton />
+				</Each>
+				<Panel Width="40%" BoxSizing="FillAspect" Aspect="1" Alignment="Center" Background="#1eb1ed" Margin="3">
+					<Rectangle Width="80%" Height="30%" Color="#4f6ac5" ZOffset=".9" Alignment="Center" />
+					<Rectangle Width="30%" Height="80%" Color="#4f6ac5" ZOffset=".9" Alignment="Center" />
+					<Rectangle Width="82%" Height="32%" Color="#000" ZOffset=".8" Alignment="Center" />
+					<Rectangle Width="32%" Height="82%" Color="#000" ZOffset=".8" Alignment="Center" />
+					<Text Font="han" FontSize="24" Color="#fff" Value="조건추가" Alignment="Center" ZOffset="1" />
 
-						<Clicked>
-							<Callback Handler="{goConditionSetting}" />
-						</Clicked>
-					</Panel>
-				</Grid>
+					<Clicked>
+						<Callback Handler="{goConditionSetting}" />
+					</Clicked>
+				</Panel>
 			</StackPanel>
 		</ScrollView>
 	</DockPanel>

@@ -12,9 +12,11 @@ var condition = data.map(function(item){
 		sido: item.sido,
 		sgk: item.sgk,
 		emd: item.emd,
+		usage: item.usage
+/*		,
 		usageTop: item.usageTop,
 		usageMiddle: item.usageMiddle,
-		usageBottom: item.usageBottom
+		usageBottom: item.usageBottom*/
 	}
 });
 
@@ -31,25 +33,35 @@ var options = {
 	sido: Observable(),
 	sgk: Observable(),
 	emd: Observable(),
+	usage: [
+		{name: "부동산", selected: Observable(false)}, //10000
+		{name: "자동차", selected: Observable(false)}, //12000
+		{name: "물품\n기계", selected: Observable(false)}, //13~30000
+		{name: "권리\n증권", selected: Observable(false)}, //11000
+		{name: "기타", selected: Observable(false)}, //31000
+		{name: "전체", selected: Observable(false)} //ALL
+    ]
+/*    ,
 	usageTop: Observable(),//picker내에 보이는 문자열 저장 변수
 	usageMiddle: Observable(),
-	usageBottom: Observable()
+	usageBottom: Observable()*/
 };
 
+/*
 var usage = {
 		top: Observable(),//picker에서 선택한 문자를 비교하여 반환하기 위해 필요한 변수
 		middle: Observable(),
 		bottom: Observable()
-	};
+	};*/
 
 var showPanel = {
 	base: Observable(false),
 	sido: Observable("0"),
 	sgk: Observable("0"),
 	emd: Observable("0"),
-	usageTop: Observable("0"),
+/*	usageTop: Observable("0"),
 	usageMiddle: Observable("0"),
-	usageBottom: Observable("0")
+	usageBottom: Observable("0") */
 };
 
 // 날짜를 온비드 형식에 맞추어 반환
@@ -137,7 +149,7 @@ function getEmd() {
 		}
 	}
 }
-
+/*
 function selectUsageTop(arg) {
 	condition.value.usageMiddle.value = "용도2";
 	condition.value.usageBottom.value = "용도3";
@@ -231,7 +243,7 @@ function getUsageBottom() {
 		}
 	}
 }
-
+*/
 function closePanel() {
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.sido.value = "0";
@@ -243,6 +255,20 @@ function assetTypeSelect(arg) {
 	arg.data.selected.value = ! arg.data.selected.value;
 }
 
+function usageSelect(arg) {
+	if (arg.data.name == "전체") {
+		if (condition.value.usage[5].selected.value == false){
+			for (var i = 0; i<5 ; i++) {
+				condition.value.usage[i].selected.value = false;
+			}
+		}
+		arg.data.selected.value = ! arg.data.selected.value;
+	} else {
+		condition.value.usage[5].selected.value = false;
+		arg.data.selected.value = ! arg.data.selected.value;
+	}
+}
+
 function check(){
 	console.log(JSON.stringify(condition));
 }
@@ -252,7 +278,7 @@ module.exports = {
 
 	selectSido, selectSgk, selectEmd, getSido, getSgk, getEmd,
 
-	usage, getUsageTop, getUsageMiddle, getUsageBottom, selectUsageTop, selectUsageMiddle, selectUsageBottom,
+//	getUsageTop, getUsageMiddle, getUsageBottom, selectUsageTop, selectUsageMiddle, selectUsageBottom,
 
-	assetTypeSelect
+	assetTypeSelect, usageSelect
 };

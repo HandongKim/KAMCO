@@ -12,22 +12,8 @@
 			}
 		})
 
-		var scrollPosition = Observable(0, 0);
-
-		function scrollUp() {
-			if (scrollPosition.value >0) {
-				scrollPosition.value += 30;
-			}
-		}
-
-		function scrollDown() {
-			if (scrollPosition.value > 0) {
-				scrollPosition.value -= 30;
-			}
-		}
-
 		module.exports = {
-			options, scrollPosition, scrollUp, scrollDown
+			options
 		};
 	</JavaScript>
 
@@ -41,38 +27,30 @@
 		</Tapped>
 	</Rectangle>
 
-	<Rectangle Color="#fff" Width="100%" Height="170" ZOffset="0.2">
-<!--		<StackPanel ZOffset="0.3">
-			<Panel Width="100%" Height="70">
+	<Rectangle Color="#fff" Width="100%" Height="130" ZOffset="0.2">
+		<StackPanel ZOffset="0.3">
+			<Panel Width="100%" Height="50">
 				<ImageFill File="../Assets/picker.jpg" Color="#fff5"/>
 			</Panel>
 			<Rectangle Width="200" Height="30" CornerRadius="5">
 				<Stroke Width="2" Color="Blue" />
 			</Rectangle>
-			<Panel Width="100%" Height="70">
+			<Panel Width="100%" Height="50">
 				<Rotation Degrees="180" />
 				<ImageFill File="../Assets/picker.jpg" Color="#fff5"/>
 			</Panel>
-		</StackPanel>-->
+		</StackPanel>
 		<ScrollView>
 			<StackPanel>
-				<Rectangle Height="70" />
+				<Rectangle Height="50" />
 				
 				<Selection Value="{Property Selected}" MaxCount="1" MinCount="1" />
 				<Each Items="{options}">
 					<pickerButton Label="{option}" />
 				</Each>
 
-				<Rectangle Height="70" />
+				<Rectangle Height="50" />
 			</StackPanel>
 		</ScrollView>
-
-		<SwipeGesture ux:Name="pickerScrollUp" Direction="Up" Length="30" />
-		<SwipingAnimation Source="pickerScrollUp">
-		</SwipingAnimation>
-
-		<SwipeGesture ux:Name="pickerScrollDown" Direction="Up" Length="30" />
-		<SwipingAnimation Source="pickerScrollDown">
-		</SwipingAnimation>
 	</Rectangle>
 </Panel>

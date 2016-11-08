@@ -21,7 +21,7 @@
 	<Rectangle ux:Class="segmentButton" CornerRadius="3" Margin="1">
 		<string ux:Property="Label" />
 		<Selectable Value="{Property Label}" />
-		<Text ux:Name="text" Alignment="Center" Font="han" Color="#18f" Value="{Property Label}" Margin="2" />
+		<Text ux:Name="text" Alignment="Center" Font="han" FontSize="24" Color="#18f" Value="{Property Label}" Margin="2" />
 		<Stroke Color="#18f" />
 
 		<WhileSelected>

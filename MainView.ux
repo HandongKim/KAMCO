@@ -9,22 +9,10 @@
 		};
 	</JavaScript>
 
-	<Rectangle ux:Class="selectBox" CornerRadius="2" Margin="2">
-		<Stroke Width="1" Color="#444" />
-	</Rectangle>
-
-	<Rectangle ux:Class="selectButton" CornerRadius="3" Width="25" Height="25">
-		<Stroke Width="1" Color="#18f" />
-	</Rectangle>
-
-	<Rectangle ux:Class="basicColumn" Color="#fff" CornerRadius="2" />
-
-	<Font File="Assets/NanumGothic.ttc" ux:Global="han" />
-
-	<Text ux:Class="selectText" Color="#000" Alignment="CenterLeft" Font="han" Margin="3,0" MaxLength="4" />
+	<ux:Include File="Resources.ux" />
 
 	<ClientPanel>
-		<SideMenu ux:Name="sideMenu" Background="#62cdaf" Width="40%" Offset="-40%, 0" Alignment="Left"/>
+		<SideMenu ux:Name="sideMenu" Width="40%" Offset="-40%, 0" Alignment="Left"/>
 		
 		<Circle ux:Name="menuToggle" Alignment="BottomRight" Color="#356" Width="40" Height="40" Margin="5">
 			<Text Color="#fff" FontSize="13" Value="Menu" Alignment="Center" />
@@ -44,8 +32,7 @@
 				<makingPage ux:Template="makingPage" router="router" />
 				<scrollingAnimation ux:Template="scrollingAnimation" router="router" />
 			</Navigator>
-
-			
+		
 		</DockPanel>
 
 		<SwipeGesture ux:Name="swipeRight" Direction="Right" Length="200" />

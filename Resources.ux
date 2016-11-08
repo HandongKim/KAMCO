@@ -1,0 +1,98 @@
+<Panel>
+	<Rectangle ux:Class="SideMenuButton" Width="95%" Height="30" Color="#333" Margin="5">
+		<WhilePressed>
+			<Scale Factor=".9" Duration=".05" />
+		</WhilePressed>
+		<Shadow />
+	</Rectangle>
+
+	<Rectangle ux:Class="selectButton" CornerRadius="3" >
+		<Stroke Width="1" Color="#18f" />
+	</Rectangle>
+
+	<Rectangle ux:Class="selectBox" CornerRadius="2" Margin="2">
+		<Stroke Width="1" Color="#18f" />
+	</Rectangle>
+
+	<Rectangle ux:Class="titleBox" Color="#f9f9f9" CornerRadius="2" Margin="2">
+		<Stroke Width="1" Color="#000" />
+	</Rectangle>
+	
+	<Rectangle ux:Class="contentsBox" Color="#fff" CornerRadius="2" Margin="2" />
+
+	<Rectangle ux:Class="leftColumn" Color="#7bf" CornerRadius="3" Margin="0.5, 1.5" />
+	<Rectangle ux:Class="rightColumn" Color="#9df" CornerRadius="3" Margin="0.5, 1.5" />
+
+	<Font File="Assets/NanumGothic.ttc" ux:Global="han" />
+
+	<Text ux:Class="selectText" Color="#18f" Alignment="Center" Font="han" FontSize="24" Margin="3,0" MaxLength="4" />
+
+	<Text ux:Class="titleText" Color="#000" Alignment="Center" Font="han" FontSize="24" Margin="3,0" />
+
+	<Rectangle ux:Class="BasicButton" CornerRadius="3" Color="#888" Margin="5">
+		<WhilePressed>
+			<Scale Factor="0.95" Duration=".05" />
+		</WhilePressed>
+		<Shadow />
+	</Rectangle>
+
+	<Panel ux:Class="homeButton" Margin="3, 3, 3, 0">
+		<Rectangle ux:Name="contentsRec" Color="#1eb1ed" CornerRadius="3">
+			<WrapPanel Alignment="CenterLeft">
+				<Text Font="han" Value="{number}" Alignment="Center" Color="#000" />
+
+				<Rectangle CornerRadius="3" Color="Green" Margin="2" Height="20">
+					<Text Font="han" FontSize="15" Alignment="Center" Color="#fff" Value="{sellType}" />
+				</Rectangle>
+
+				<Rectangle CornerRadius="3" Color="Yellow" Margin="2" Height="20">
+					<Text Font="han" FontSize="15" Alignment="Center" Color="#000" Value="{sido}" />
+				</Rectangle>
+			</WrapPanel>
+
+			<Clicked>
+				<Callback Handler="{goConditionSearch}" />
+				<Set buttonChange.Value="false" />
+			</Clicked>
+		</Rectangle>
+
+		<Rectangle ux:Name="changeRec" Width="50" Height="50" Color="#1eb1ed" CornerRadius="3" Opacity="0" Alignment="CenterRight" Offset="52, 0" Margin="1, 0">
+			<Text Value="수정" Font="han" FontSize="20" Alignment="Center" Color="#000" TextWrapping="Wrap" Width="20" />
+			<Clicked>
+				<Set buttonChange.Value="false" />
+				<Callback Handler="{changeCondition}" />
+			</Clicked>
+		</Rectangle>
+		<Rectangle ux:Name="deleteRec" Width="50" Height="50" Color="#1eb1ed" CornerRadius="3" Opacity="0" Alignment="CenterRight" Offset="102, 0">
+			<Text Value="삭제" Font="han" FontSize="20" Alignment="Center" Color="#000" TextWrapping="Wrap" Width="20" />
+			<Clicked>
+				<Set buttonChange.Value="false" />
+				<Callback Handler="{deleteCondition}" />
+			</Clicked>
+		</Rectangle>
+
+		<SwipeGesture ux:Name="forButtonChange" Direction="Left" Length="30" />
+		<SwipingAnimation Source="forButtonChange">
+			<Set buttonChange.Value="true" />
+		</SwipingAnimation>
+
+		<SwipeGesture ux:Name="cancel" Direction="Right" Length="30" />
+		<SwipingAnimation Source="cancel">
+			<Set buttonChange.Value="false" />
+		</SwipingAnimation>
+
+		<WhileTrue ux:Name="buttonChange">
+			<Move X="-100" Duration=".15" />
+			<Change changeRec.Opacity="1" Delay=".2" Duration=".05" />
+			<Change deleteRec.Opacity="1" Delay=".2" Duration=".05" />
+		</WhileTrue>
+
+		<AddingAnimation>
+			<Move X="1" RelativeTo="Size" Duration=".4" Easing="BounceInOut" DurationBack=".2" DelayBack="{delay}" />
+		</AddingAnimation>
+
+		<RemovingAnimation>
+			<Move X="-2" RelativeTo="Size" Duration=".2" Easing="BackOut" />
+		</RemovingAnimation>
+	</Panel>
+</Panel>

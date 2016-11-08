@@ -35,6 +35,7 @@
 			<Change wifiPopup.HitTestMode="LocalBoundsAndChildren" Delay="3" />
 		</WhileTrue>
 	</Panel>
+	
 	<Rectangle ux:Name="wifiPopup" Color="#eee" CornerRadius="3" Opacity="0" ZOffset="-1" HitTestMode="None" Height="50" Width="70%">
 		<Stroke Width="2" Color="Black" />
 		<StackPanel Alignment="Center">

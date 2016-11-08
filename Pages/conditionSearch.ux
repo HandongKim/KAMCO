@@ -1,76 +1,57 @@
 <Page ux:Class="conditionSearch">
 	<Router ux:Dependency="router" />
-	<JavaScript>
-		var condition;
-		var param;
-
-		this.Parameter.onValueChanged(function(x) {
-			condition = x;
-			console.log(JSON.stringify(condition));
-			checkCondition();
-			console.log(param);
-		})
-
-		function checkCondition() {
-		// 타입 선택에 따른 param 추가
-			if (condition.sellType == "전체") {
-				param = "" + "&DPSL_MTD_CD=ALL";
-			} else if (condition.sellType == "매각") {
-				param = "" + "&DPSL_MTD_CD=0001";
-			} else if (condition.sellType == "임대") {
-				param = "" + "&DPSL_MTD_CD=0002";
-			}
-
-		// 기간 선택에 따른 param 추가
-			if (condition.bgDate != null) {
-				param += "&PBCT_BEGN_DTM=" + condition.bgDate;
-				param += "&PBCT_CLS_DTM=" + condition.clsDate;
-			}
-
-		// 주소 선택에 따른 param 추가
-			if (condition.emd != "읍면동") {
-				param += "&EMD=" + encodeURI(condition.emd);
-			}
-			if (condition.sgk != "시군구") {
-				param += "&SGK=" + encodeURI(condition.sgk);
-			}
-			if (condition.emd != "시도") {
-				param += "&SIDO=" + encodeURI(condition.sido);
-			}
-		}
-
-		// 온비드에서 물건 검색하는 함수
-		function searchData() {
-			checkCondition();
-
-		// 검색 url
-			var url = "http://openapi.onbid.co.kr/openapi/services/KamcoPblsalThingInquireSvc/getKamcoSaleList?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D" + param;
-
-			showItems.clear()
-			Backend.getData(url).then(function(items) {
-				for (var i = 0 ; i < items.response.body.items.length-1 ; i++) {
-					if (items.response.body.items[i].item.PLNM_NO != items.response.body.items[i+1].item.PLNM_NO) {
-						showItems.add(items.response.body.items[i]);
-					}
-					if (i == items.response.body.items.length-2) {
-						showItems.add(items.response.body.items[i+1]);
-					}
-				}
-			});
-		}
-
-		module.exports = {
-			goConditionSetting: function(){
-				router.push("conditionSetting");
-			}
-		};
-	</JavaScript>
+	<JavaScript File="conditionSearch.js" />
 
 	<DockPanel>
 		<Panel Height="50" Dock="Top">
-			<Text FontSize="30" Alignment="Center" Value="Condition Search Title" />
+			<Text FontSize="30" Alignment="Center" Font="han" Value="검색결과" />
 		</Panel>
-		<StackPanel Background="#d0b5b6" Dock="Fill">
+		<StackPanel Dock="Top">
+			<WrapPanel>
+				<Text Font="han" Value="  총 검색건수는 " />
+				<Text Value="{totalCount}" />
+				<Text Font="han" Value="건(중복자료 포함) 입니다." />
+			</WrapPanel>
+			<BasicButton Clicked="{sortItems}">
+				<Text Font="han" Color="#fff" Alignment="Center" Value="낮은 가격순 정렬" />
+			</BasicButton>
 		</StackPanel>
+		<ScrollView SnapMinTransform="false" LayoutMode="PreserveVisual">
+			<StackPanel Background="#f3f3f3" Dock="Fill">
+				<Each Items="{showItems}">
+					<Rectangle Color="#fff" Margin="3, 0, 3, 3" Clicked="{goDetail}">
+						<StackPanel Margin="2">
+							<WrapPanel>
+								<Text Font="han" FontSize="13" Color="#093" Value="{item.DPSL_MTD_NM}" />
+								<Text Value=" | " FontSize="13" />
+								<Text Font="han" FontSize="13" Color="#093" Value="{item.BID_MTD_NM}" />
+								<Text Value=" | " FontSize="13" />
+								<Text Font="han" FontSize="13" Color="#093" Value="{item.CTGR_FULL_NM}" />
+							</WrapPanel>
+							<Text Font="han" FontSize="17" Value="{item.CLTR_NM}" TextWrapping="Wrap" />
+							<Text Font="han" FontSize="13" Color="#028" Value="{item.GOODS_NM}" />
+							<WrapPanel>
+								<Text Font="han" FontSize="13" Value="최저입찰가 : " />
+								<Text Font="han" FontSize="13" Color="#820" Value="{item.MIN_BID_PRC}" />
+								<Text Font="han" FontSize="13" Color="#820" Value=" 원" />
+							</WrapPanel>
+							<WrapPanel>
+								<Text Font="han" FontSize="13" Color="#028" Value="(유찰 " />
+								<Text Font="han" FontSize="13" Color="#028" Value="{item.USCBD_CNT}" />
+								<Text Font="han" FontSize="13" Color="#028" Value=" 회)" />
+							</WrapPanel>
+						</StackPanel>
+					</Rectangle>
+				</Each>
+			</StackPanel>
+		</ScrollView>
+		<WrapPanel Dock="Bottom" ItemWidth="150" Alignment="Center">
+			<BasicButton Clicked="{loadMore}">
+				<Text Font="han" FontSize="20" Color="#fff" Alignment="Center" Value="더보기" />
+			</BasicButton>
+			<BasicButton Clicked="{goBack}">
+				<Text Font="han" FontSize="20" Color="#fff" Alignment="Center" Value="뒤로" />
+			</BasicButton>
+		</WrapPanel>
 	</DockPanel>
 </Page>

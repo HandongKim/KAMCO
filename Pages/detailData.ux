@@ -3,9 +3,6 @@
 
 	<JavaScript File="detailData.js" />
 
-	<Rectangle ux:Class="leftColumn" Color="#7bf" CornerRadius="3" Margin="0.5, 1.5" />
-	<Rectangle ux:Class="rightColumn" Color="#9df" CornerRadius="3" Margin="0.5, 1.5" />
-
 	<DockPanel Background="#eee">
 		<StackPanel Dock="Top">
 			<Rectangle Color="#fff" CornerRadius="3" Margin="3">
@@ -13,7 +10,7 @@
 			</Rectangle>
 
 			<Rectangle Color="#fff" CornerRadius="3" Margin="3">
-				<selectBar Options="{options}" Selected="{selected}" ColumnCount="3">
+				<selectBar Alignment="Center" Options="{options}" Selected="{selected}" ColumnCount="3">
 					<Clicked><Callback Handler="{selectData}" /></Clicked>
 				</selectBar>
 			</Rectangle>
@@ -124,9 +121,13 @@
 
 		</Panel>
 
-		<WrapPanel Dock="Bottom" Margin="3" ItemWidth="100" Alignment="Center">
-			<Button Text="Save" Clicked="{save}" />
-			<Button Text="Back" Clicked="{goBack}" />
+		<WrapPanel Dock="Bottom" ItemWidth="150" Alignment="Center">
+			<BasicButton Clicked="{save}">
+				<Text Font="han" FontSize="20" Color="#fff" Alignment="Center" Value="저장" />
+			</BasicButton>
+			<BasicButton Clicked="{goBack}">
+				<Text Font="han" FontSize="20" Color="#fff" Alignment="Center" Value="취소" />
+			</BasicButton>
 		</WrapPanel>
 	</DockPanel>
 </Page>

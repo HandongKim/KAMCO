@@ -34,7 +34,7 @@
 	<DockPanel Background="#ddd">
 		<Blur ux:Name="searchDataBlur" Radius="0" />
 		<StackPanel Dock="Top" Margin="3">
-			<basicColumn ColumnSpan="2" Height="30" Margin="0,0,0,3">
+			<selectBox ColumnSpan="2" Height="30" Margin="0,0,0,3">
 				<Panel ux:Name="hideArrow" Width="30" Height="30" Alignment="Right" Margin="5,0" HitTestMode="LocalBounds">
 					<Rectangle Color="#222" Width="18" Height="2" CornerRadius="1" Alignment="Left">
 						<Rotation ux:Name="leftArrowRotate" Degrees="45" />
@@ -52,38 +52,38 @@
 					</WhileTrue>
 				</Panel>
 				<selectText Value="검색조건" Alignment="Center" />
-			</basicColumn>
+			</selectBox>
 
 			<Grid ux:Name="searchPanel" ColumnCount="2" Columns="1*, 2.5*" CellSpacing="2" Dock="Top" Height="150">
-				<basicColumn>
+				<selectBox>
 					<selectText Value="처분 방식" />
-				</basicColumn>
-				<basicColumn>
+				</selectBox>
+				<selectBox>
 					<selectBar Options="{options.sellType}" Selected="{selected.sellType}" ColumnCount="3" Width="135" Height="25" />
-				</basicColumn>
+				</selectBox>
 
-				<basicColumn>
+				<selectBox>
 					<selectText Font="han" Value="입찰 기간" Alignment="CenterLeft" />
-				</basicColumn>
-				<basicColumn>
+				</selectBox>
+				<selectBox>
 					<selectBar Options="{options.date}" Selected="{selected.date}" ColumnCount="2" Width="180" Height="25" />
-				</basicColumn>
+				</selectBox>
 
-				<basicColumn>
+				<selectBox>
 					<selectText Font="han" Value="자산구분" Alignment="CenterLeft" />
-				</basicColumn>
-				<basicColumn>
+				</selectBox>
+				<selectBox>
 					<WrapPanel ItemWidth="30" Alignment="CenterLeft">
 						<Each Items="{options.assetType}">
 							<selectButton />
 						</Each>
 					</WrapPanel>
-				</basicColumn>
+				</selectBox>
 
-				<basicColumn>
+				<selectBox>
 					<selectText Font="han" Value="용도" Alignment="CenterLeft" />
-				</basicColumn>
-				<basicColumn>
+				</selectBox>
+				<selectBox>
 					<WrapPanel Alignment="CenterLeft">
 						<selectBox>
 							<selectText Value="{selected.usageTop}" Clicked="{getUsageTop}" />
@@ -97,12 +97,12 @@
 							<selectText Value="{selected.usageBottom}" Clicked="{getUsageBottom}" />
 						</selectBox>
 					</WrapPanel>
-				</basicColumn>
+				</selectBox>
 
-				<basicColumn>
+				<selectBox>
 					<selectText Font="han" Value="소재지" Alignment="CenterLeft" />
-				</basicColumn>
-				<basicColumn>
+				</selectBox>
+				<selectBox>
 					<WrapPanel Alignment="CenterLeft">
 						<selectBox>
 							<selectText Value="{selected.sido}" Clicked="{getSido}" />
@@ -116,7 +116,7 @@
 							<selectText Value="{selected.emd}" Clicked="{getEmd}" />
 						</selectBox>
 					</WrapPanel>
-				</basicColumn>
+				</selectBox>
 			</Grid>
 
 		</StackPanel>

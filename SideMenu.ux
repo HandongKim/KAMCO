@@ -1,11 +1,4 @@
-<StackPanel ux:Class="SideMenu">
-	<Rectangle ux:Class="SideMenuButton" Width="95%" Height="30" Color="#3a5aca" Margin="5">
-		<WhilePressed>
-			<Scale Factor=".9" Duration=".05" />
-		</WhilePressed>
-		<Shadow />
-	</Rectangle>
-
+<StackPanel ux:Class="SideMenu" Background="#f3f3f3">
 <!--	<Panel Alignment="Right" Margin="5">
 		<Circle Alignment="Center" Color="#ee432f" Width="30" Height="30" ZOffset="0.2" />
 		<Circle Alignment="Center" Color="#ae31ee" Width="34" Height="34" ZOffset="0.1" />
@@ -21,7 +14,8 @@
 		</Clicked>
 	</Panel>-->
 
+	<Rectangle Height="40" />
 	<SideMenuButton>
-		<Text Font="han" FontSize="20" Value="저장 물건" />
+		<Text Font="han" FontSize="20" Alignment="Center" Color="#fff" Value="저장 물건" />
 	</SideMenuButton>
 </StackPanel>
