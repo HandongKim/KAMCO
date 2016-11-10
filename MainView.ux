@@ -12,7 +12,7 @@
 	<ux:Include File="Resources.ux" />
 
 	<ClientPanel>
-		<SideMenu ux:Name="sideMenu" Width="40%" Offset="-40%, 0" Alignment="Left"/>
+		<SideMenu ux:Name="sideMenu" Width="40%" Offset="-40%, 0" Visibility="Hidden" Alignment="Left" />
 		
 		<Circle ux:Name="menuToggle" Alignment="BottomRight" Color="#356a" Width="40" Height="40" Margin="10">
 			<Draggable />
@@ -47,6 +47,7 @@
 		</SwipingAnimation>
 
 		<WhileTrue ux:Name="onSidePanel">
+			<Change sideMenu.Visibility="Visible" />
 			<Change sideMenu.Offset="0, 0" Duration=".1" DurationBack=".05" />
 			<Change Contents.Offset="40%, 0" Duration=".1" DurationBack=".05" />
 		</WhileTrue>

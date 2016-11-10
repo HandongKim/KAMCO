@@ -16,6 +16,13 @@ var panel = {
 		date: {Opacity: Observable("0"), ZOffset: Observable("0")}
 	};
 
+Storage.read("saveItems.txt").then(function(data) {
+	var temp = JSON.parse(data);
+	temp.forEach(function(item) {
+		saveItems.push(item);
+	})
+});
+
 this.Parameter.onValueChanged(function(x) {
 	var url = "http://openapi.onbid.co.kr/openapi/services/KamcoPblsalThingInquireSvc/getKamcoSaleDetail?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&PLNM_NO="+item.basicItem.value.PLNM_NO+"&PBCT_NO="+item.basicItem.value.PBCT_NO;
 
@@ -28,14 +35,6 @@ this.Parameter.onValueChanged(function(x) {
 
 	Backend.getData(url).then(function(item) {
 		item.detailItem.value = item;
-	});
-
-	Storage.read("saveItems.txt").then(function(data) {
-		var temp = JSON.parse(data);
-		console.log(JSON.stringify(temp));
-		temp.forEach(function(item) {
-			saveItems.add(item);
-		})
 	});
 });
 

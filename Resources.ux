@@ -1,10 +1,46 @@
 <Panel>
-	<Rectangle ux:Class="SideMenuButton" Width="95%" Height="30" Color="#888" Margin="5">
-		<WhilePressed>
-			<Scale Factor=".9" Duration=".05" />
-		</WhilePressed>
-		<Shadow />
-	</Rectangle>
+	<Panel ux:Class="SideMenuButton" Width="95%" >
+		<Rectangle ux:Name="sideMenuBtnDel" Width="30%" Height="30" Alignment="Right" Opacity="0" Offset="30, 0">
+			<Text Font="han" Value="삭제" Alignment="Center" />
+			<Clicked>
+				<Set sideMenuBtnSwipe.Value="false" />
+				<Callback Handler="{deleteItem}" />
+			</Clicked>
+		</Rectangle>
+
+		<Rectangle ux:Name="sideMenuBtnContents" Width="100%" Height="30" Color="#888" Margin="5" Alignment="CenterLeft">
+			<Text Font="han" FontSize="20" Alignment="Center" Color="#fff" Value="{CLTR_NO}" />
+
+			<Shadow />
+		</Rectangle>
+
+		<SwipeGesture ux:Name="sideMenuBtnSwipeLeft" Direction="Left" Length="30" />
+		<SwipingAnimation Source="sideMenuBtnSwipeLeft">
+			<Set sideMenuBtnSwipe.Value="true" />
+		</SwipingAnimation>
+
+		<SwipeGesture ux:Name="sideMenuBtnSwipeRight" Direction="Right" Length="30" />
+		<SwipingAnimation Source="sideMenuBtnSwipeRight">
+			<Set sideMenuBtnSwipe.Value="false" />
+		</SwipingAnimation>
+
+		<WhileTrue ux:Name="sideMenuBtnSwipe">
+			<Move X="-30" Duration=".1" />
+			<Change sideMenuBtnDel.Opacity="1" Delay=".1" />
+		</WhileTrue>
+
+		<AddingAnimation>
+			<Move X="-1.1" RelativeTo="Size" Duration=".4" Easing="BounceInOut" DurationBack=".2" />
+		</AddingAnimation>
+
+		<RemovingAnimation>
+			<Move X="-2" RelativeTo="Size" Duration=".2" Easing="BackOut" />
+		</RemovingAnimation>
+
+		<LayoutAnimation>
+			<Move RelativeTo="PositionChange" Y="1" Duration=".2" Easing="CubicOut"/>
+		</LayoutAnimation>
+	</Panel>
 
 	<Rectangle ux:Class="selectButton" CornerRadius="3" >
 		<Stroke Width="1" Color="#18f" />
@@ -118,13 +154,13 @@
 			</Clicked>
 		</Rectangle>
 
-		<SwipeGesture ux:Name="forButtonChange" Direction="Left" Length="30" />
-		<SwipingAnimation Source="forButtonChange">
+		<SwipeGesture ux:Name="homeBtnSwipeLeft" Direction="Left" Length="30" />
+		<SwipingAnimation Source="homeBtnSwipeLeft">
 			<Set buttonChange.Value="true" />
 		</SwipingAnimation>
 
-		<SwipeGesture ux:Name="cancel" Direction="Right" Length="30" />
-		<SwipingAnimation Source="cancel">
+		<SwipeGesture ux:Name="homeBtnSwipeRight" Direction="Right" Length="30" />
+		<SwipingAnimation Source="homeBtnSwipeRight">
 			<Set buttonChange.Value="false" />
 		</SwipingAnimation>
 

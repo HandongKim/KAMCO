@@ -5,15 +5,25 @@
 
 		var savedItems = Observable();
 
-		Storage.read("saveItems.txt").then(function(data) {
-			var temp = JSON.parse(data);
-			temp.forEach(function(item) {
-				savedItems.add(item);
-			})
-		});
+		function loadItems() {
+			savedItems.clear();
+			Storage.read("saveItems.txt").then(function(data) {
+				var temp = JSON.parse(data);
+				temp.forEach(function(item) {
+					savedItems.add(item);
+				})
+			});	
+		}
 
-		module.exports = { savedItems };
+		function deleteItem(arg) {
+			savedItems.remove(arg.data);
+
+			Storage.write("saveItems.txt", JSON.stringify(savedItems.toArray()));
+		}
+
+		module.exports = { savedItems, loadItems, deleteItem };
 	</JavaScript>
+
 	<Rectangle Width="2" Color="#fff" Dock="Right"/>
 	<StackPanel>
 	<!--	<Panel Alignment="Right" Margin="5">
@@ -32,14 +42,17 @@
 		</Panel>-->
 
 		<Rectangle Height="40" />
-		<SideMenuButton>
+		<Rectangle Width="100%" Height="30" Color="#444" Margin="5">
 			<Text Font="han" FontSize="20" Alignment="Center" Color="#fff" Value="저장 물건" />
-		</SideMenuButton>
+			<Shadow />
+		</Rectangle>
 
 		<Each Items="{savedItems}">
-			<SideMenuButton>
-				<Text Font="han" FontSize="20" Alignment="Center" Color="#fff" Value="{CLTR_NO}" />
-			</SideMenuButton>
+			<SideMenuButton />
 		</Each>
 	</StackPanel>
+
+	<WhileVisible>
+		<Callback Handler="{loadItems}" />
+	</WhileVisible>
 </DockPanel>

@@ -11,14 +11,23 @@
 			<contentsBox>
 				<Grid Width="100%" Columns="1*, 1*, 1*">
 					<selectBox>
-						<selectText Value="{condition.sido}" Clicked="{getSido}" />
+						<selectText Value="{condition.sido}" />
+						<Clicked>
+							<Callback Handler="{getSido}" />
+						</Clicked>
 					</selectBox>
 					<selectBox>
-						<selectText Value="{condition.sgk}" Clicked="{getSgk}" />
+						<selectText Value="{condition.sgk}" />
+						<Clicked>
+							<Callback Handler="{getSgk}" />
+						</Clicked>
 					</selectBox>
 
 					<selectBox>
-						<selectText Value="{condition.emd}" Clicked="{getEmd}" />
+						<selectText Value="{condition.emd}" />
+						<Clicked>
+							<Callback Handler="{getEmd}" />
+						</Clicked>
 					</selectBox>
 				</Grid>
 			</contentsBox>
