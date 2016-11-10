@@ -2,26 +2,123 @@
 	<Router ux:Dependency="router" />
 	<JavaScript File="conditionSearch.js" />
 
-	<DockPanel>
-		<Panel Height="50" Dock="Top">
-			<Text FontSize="30" Alignment="Center" Font="han" Value="검색결과" />
-		</Panel>
-		<StackPanel Dock="Top">
-			<WrapPanel>
-				<Text Font="han" Value="  총 검색건수는 " />
+	<DockPanel Background="#eee">
+		<StackPanel ux:Name="searchTopPanel" Dock="Top">
+			<With Data="{condition}">
+				<StackPanel Height="48">
+					<Grid Columns="1*, 2*, 2*, 2*, 2*" RowCount="1" Alignment="Center" Width="95%">
+						<homeBtnRec Color="#FBEBBC">
+							<homeBtnText Value="{sellType}" />
+						</homeBtnRec>
+
+						<homeBtnRec Color="#F39FA1">
+							<homeBtnText Value="{sido}" MaxLength="4" />
+						</homeBtnRec>
+						<homeBtnRec Color="#FAB9BA">
+							<homeBtnText Value="{sgk}" />
+						</homeBtnRec>
+						<homeBtnRec Color="#FCD3BB">
+							<homeBtnText Value="{emd}" />
+						</homeBtnRec>
+
+						<homeBtnRec Color="#C4FCBC">
+							<homeBtnText Value="{date}" MaxLength="3"/>
+						</homeBtnRec>
+					</Grid>
+					<Grid Width="95%" Columns="3*,0.4*,3*,1*,1*,1*,1*,1*,1*">
+						<homeBtnRec Color="#C1BCFB">
+							<homeBtnSmallText FontSize="15" Value="{minPrice}" />
+						</homeBtnRec>
+						<Text Value="~" Alignment="Center"/>
+						<homeBtnRec Color="#C1BCFB">
+							<homeBtnSmallText FontSize="15" Value="{maxPrice}" />
+						</homeBtnRec>
+
+	<!--					<Each Items="{assetType}">
+							<homeBtnRec ux:Name="asset" Color="#C1BCFB" Opacity="0">
+								<homeBtnSmallText Value="{name}"/>
+
+								<WhileTrue Value="{selected}">
+									<Change asset.Opacity="1" />
+								</WhileTrue>
+							</homeBtnRec>
+						</Each>-->
+						<Each Items="{usage}">
+							<homeBtnRec ux:Name="usageRec" Color="#BAE8FB" Opacity="0">
+								<homeBtnSmallText Value="{name}"/>
+
+								<WhileTrue Value="{selected}">
+									<Change usageRec.Opacity="1" />
+								</WhileTrue>
+							</homeBtnRec>
+						</Each>
+					</Grid>
+				</StackPanel>
+			</With>
+			<WrapPanel ux:Name="searchTopPanel1" Height="20">
+				<Text Font="han" Value=" 총 검색건수는 " />
 				<Text Value="{totalCount}" />
 				<Text Font="han" Value="건(중복자료 포함) 입니다." />
 			</WrapPanel>
-			<BasicButton Clicked="{sortItems}">
-				<Text Font="han" Color="#fff" Alignment="Center" Value="낮은 가격순 정렬" />
-			</BasicButton>
+			<WrapPanel ux:Name="searchTopPanel2" Alignment="Center" Height="36">
+				<BasicButton Clicked="{sortLowPrice}">
+					<Text Font="han" Color="#fff" Alignment="Center" Margin="2" Value="가격 ▲" />
+				</BasicButton>
+				<BasicButton Clicked="{sortHighPrice}">
+					<Text Font="han" Color="#fff" Alignment="Center" Margin="2" Value="가격 ▼" />
+				</BasicButton>
+				<BasicButton Clicked="{sortLowRate}">
+					<Text Font="han" Color="#fff" Alignment="Center" Margin="2" Value="입찰가율 ▲" />
+				</BasicButton>
+				<BasicButton Clicked="{sortHighRate}">
+					<Text Font="han" Color="#fff" Alignment="Center" Margin="2" Value="입찰가율 ▼" />
+				</BasicButton>
+			</WrapPanel>
+			<WrapPanel ux:Name="searchTopPanel3" Alignment="Center" Height="38">
+				<Text Font="han" Value="키워드 : " Alignment="Center"/>
+				<TextBox Font="han" Width="220" Value="{keyword}" Alignment="Center"/>
+				<BasicButton>
+					<Text Font="han" Value="검색" Clicked="{keywordSearch}"/>
+				</BasicButton>
+			</WrapPanel>
+			<Rectangle Color="#fff" Width="100%" Height="3" />
 		</StackPanel>
-		<ScrollView SnapMinTransform="false" LayoutMode="PreserveVisual">
-			<StackPanel Background="#f3f3f3" Dock="Fill">
+		<ScrollView SnapMinTransform="false" SnapMaxTransform="false" LayoutMode="PreserveVisual">
+			<ScrollingAnimation From="0" To="20">
+				<Change searchTopPanel1.Opacity="0" />
+				<Change searchTopPanel1.Height="0" />
+			</ScrollingAnimation>
+			<ScrollingAnimation From="20" To="56">
+				<Change searchTopPanel2.Opacity="0" />
+				<Change searchTopPanel2.Height="0" />
+			</ScrollingAnimation>
+			<ScrollingAnimation From="56" To="94">
+				<Change searchTopPanel3.Opacity="0" />
+				<Change searchTopPanel3.Height="0" />
+			</ScrollingAnimation>
+			<StackPanel Dock="Fill">
 				<Each Items="{showItems}">
-					<Rectangle Color="#fff" Margin="3, 0, 3, 3" Clicked="{goDetail}">
-						<StackPanel Margin="2">
-							<WrapPanel>
+					<Rectangle CornerRadius="3" Margin="3, 3, 3, 0" Clicked="{goDetail}">
+						<Stroke Color="#000" Width="1"/>
+						<StackPanel Margin="3">
+							<homeBtnText Font="han" FontSize="17" Value="{item.CLTR_NM}" TextWrapping="Wrap" />
+							<Grid Columns="1*, 2*, 3*, 4*" RowCount="1" Alignment="Center" Width="100%">
+								<homeBtnRec Color="#FBEBBC">
+									<homeBtnText Value="{item.DPSL_MTD_NM}" />
+								</homeBtnRec>
+
+								<homeBtnRec Color="#F39FA1">
+									<homeBtnText Value="{item.BID_MTD_NM}" MaxLength="4" />
+								</homeBtnRec>
+								<homeBtnRec Color="#FAB9BA">
+									<homeBtnText Value="{item.CTGR_FULL_NM}" MaxLength="6" />
+								</homeBtnRec>
+								<homeBtnRec Color="#C1BCFB">
+									<homeBtnSmallText FontSize="15" Value="{item.MIN_BID_PRC}" />
+								</homeBtnRec>
+							</Grid>
+							<Text Font="han" FontSize="13" Color="#028" Value="{item.GOODS_NM}" Alignment="Center" />
+<!--							<WrapPanel>
 								<Text Font="han" FontSize="13" Color="#093" Value="{item.DPSL_MTD_NM}" />
 								<Text Value=" | " FontSize="13" />
 								<Text Font="han" FontSize="13" Color="#093" Value="{item.BID_MTD_NM}" />
@@ -40,18 +137,22 @@
 								<Text Font="han" FontSize="13" Color="#028" Value="{item.USCBD_CNT}" />
 								<Text Font="han" FontSize="13" Color="#028" Value=" 회)" />
 							</WrapPanel>
+						-->
 						</StackPanel>
 					</Rectangle>
 				</Each>
 			</StackPanel>
 		</ScrollView>
-		<WrapPanel Dock="Bottom" ItemWidth="150" Alignment="Center">
-			<BasicButton Clicked="{loadMore}">
-				<Text Font="han" FontSize="20" Color="#fff" Alignment="Center" Value="더보기" />
-			</BasicButton>
-			<BasicButton Clicked="{goBack}">
-				<Text Font="han" FontSize="20" Color="#fff" Alignment="Center" Value="뒤로" />
-			</BasicButton>
-		</WrapPanel>
+		<StackPanel Dock="Bottom">
+			<Rectangle Color="#fff" Width="100%" Height="3" />
+			<WrapPanel ItemWidth="150" Alignment="Center">
+				<BasicButton Clicked="{loadMore}">
+					<Text Font="han" FontSize="20" Color="#fff" Alignment="Center" Value="더보기" />
+				</BasicButton>
+				<BasicButton Clicked="{goBack}">
+					<Text Font="han" FontSize="20" Color="#fff" Alignment="Center" Value="뒤로" />
+				</BasicButton>
+			</WrapPanel>
+		</StackPanel>
 	</DockPanel>
 </Page>

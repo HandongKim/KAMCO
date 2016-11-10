@@ -3,6 +3,7 @@ var Storage = require('FuseJS/Storage');
 var Backend = require("Module/Backend.js");
 
 var item = {basicItem: this.Parameter, detailItem: Observable()};
+var saveItems = [];
 var showItem = Observable();
 var options = ["기본정보", "기관정보", "공고정보", "경매정보", "공고문", "입찰정보"];
 var selected = Observable("기본정보");
@@ -18,12 +19,23 @@ var panel = {
 this.Parameter.onValueChanged(function(x) {
 	var url = "http://openapi.onbid.co.kr/openapi/services/KamcoPblsalThingInquireSvc/getKamcoSaleDetail?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&PLNM_NO="+item.basicItem.value.PLNM_NO+"&PBCT_NO="+item.basicItem.value.PBCT_NO;
 
+	showItem.clear();
 	for (var o in item.basicItem.value ) {
-		showItem.add({name: Backend.changeAttributeName(o), contents: item.basicItem.value[o] });
+		if (item.basicItem.value[o] != "") {
+			showItem.add({name: Backend.changeAttributeName(o), contents: item.basicItem.value[o] });
+		}
 	}
 
 	Backend.getData(url).then(function(item) {
 		item.detailItem.value = item;
+	});
+
+	Storage.read("saveItems.txt").then(function(data) {
+		var temp = JSON.parse(data);
+		console.log(JSON.stringify(temp));
+		temp.forEach(function(item) {
+			saveItems.add(item);
+		})
 	});
 });
 
@@ -65,8 +77,10 @@ function selectData() {
 }
 
 function save() {
-	console.log(JSON.stringify(item));
-	Storage.write("save.xml", JSON.stringify(item))
+//	console.log(JSON.stringify(item.basicItem.value));
+	var temp = item.basicItem.value;
+	saveItems.push(temp);
+	Storage.write("saveItems.txt", JSON.stringify(saveItems))
 		.then(function(succeeded) {
 			if(succeeded) {
 				console.log("Successfully wrote to file.");

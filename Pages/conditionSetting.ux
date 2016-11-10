@@ -16,6 +16,23 @@
 					<Text Font="han" FontSize="20" Color="#fff" Alignment="Center" Value="취소" />
 				</BasicButton>
 			</WrapPanel>
+
+			<Rectangle ux:Name="cancelPage" Width="10" Height="10" Color="#f33" Opacity="0" ZOffset="-1" HitTestMode="None">
+				<StackPanel>
+					<Text Font="han" Color="#fff" Alignment="Center" Value="검색조건 개수를 초과하였습니다." />
+					<BasicButton Clicked="{cancelSave}" Alignment="Center">
+						<Text Font="han" FontSize="20" Color="#fff" Value="확인" />
+					</BasicButton>
+				</StackPanel>
+
+				<WhileTrue Value="{cancelPopup}">
+					<Change cancelPage.Opacity="1" Duration=".1" />
+					<Change cancelPage.Width="250" Duration=".1" />
+					<Change cancelPage.Height="60" Duration=".1" />
+					<Change cancelPage.ZOffset="1" Duration=".1" />
+					<Change cancelPage.HitTestMode="LocalBoundsAndChildren" />
+				</WhileTrue>
+			</Rectangle>
 		</StackPanel>
 	</DockPanel>
 </Page>

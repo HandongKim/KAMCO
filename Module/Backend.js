@@ -11,7 +11,7 @@ function parsingXMLData(xmlData) {
 
 // xml헤더 내용과 불필요한 부분을 삭제.
 	var forDeleteText = findString(xmlData, findLocation);
-	xmlData = xmlData.replace('<'+forDeleteText+'>', "").replace(/\t/g, "").replace(/\r/g, "\\r").replace(/\n/g, "\\n").replace(/\s\s+/g, "");
+	xmlData = xmlData.replace('<'+forDeleteText+'>', "").replace(/\t/g, "").replace(/\r/g, "").replace(/\n/g, "\\n").replace(/\s\s+/g, "");
 
 // < 의 개수만큼 반복하며 json데이터의 속성들을 추가.
 	for (var i = 0 ; i < xmlData.match(/</g).length ; i++) {

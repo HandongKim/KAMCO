@@ -1,21 +1,45 @@
-<StackPanel ux:Class="SideMenu" Background="#f3f3f3">
-<!--	<Panel Alignment="Right" Margin="5">
-		<Circle Alignment="Center" Color="#ee432f" Width="30" Height="30" ZOffset="0.2" />
-		<Circle Alignment="Center" Color="#ae31ee" Width="34" Height="34" ZOffset="0.1" />
-		<Rectangle Alignment="Center" Color="#000" Width="20" Height="2" CornerRadius="5" ZOffset="0.3" >
-			<Rotation Degrees="45" />
-		</Rectangle>
-		<Rectangle Alignment="Center" Color="#000" Width="20" Height="2" CornerRadius="5" ZOffset="0.3" >
-			<Rotation Degrees="-45" />
-		</Rectangle>
+<DockPanel ux:Class="SideMenu" Background="#f3f3f3">
+	<JavaScript>
+		var Observable = require('FuseJS/Observable');
+		var Storage = require('FuseJS/Storage');
 
-		<Clicked>
-			<Toggle Target="onSidePanel" />
-		</Clicked>
-	</Panel>-->
+		var savedItems = Observable();
 
-	<Rectangle Height="40" />
-	<SideMenuButton>
-		<Text Font="han" FontSize="20" Alignment="Center" Color="#fff" Value="저장 물건" />
-	</SideMenuButton>
-</StackPanel>
+		Storage.read("saveItems.txt").then(function(data) {
+			var temp = JSON.parse(data);
+			temp.forEach(function(item) {
+				savedItems.add(item);
+			})
+		});
+
+		module.exports = { savedItems };
+	</JavaScript>
+	<Rectangle Width="2" Color="#fff" Dock="Right"/>
+	<StackPanel>
+	<!--	<Panel Alignment="Right" Margin="5">
+			<Circle Alignment="Center" Color="#ee432f" Width="30" Height="30" ZOffset="0.2" />
+			<Circle Alignment="Center" Color="#ae31ee" Width="34" Height="34" ZOffset="0.1" />
+			<Rectangle Alignment="Center" Color="#000" Width="20" Height="2" CornerRadius="5" ZOffset="0.3" >
+				<Rotation Degrees="45" />
+			</Rectangle>
+			<Rectangle Alignment="Center" Color="#000" Width="20" Height="2" CornerRadius="5" ZOffset="0.3" >
+				<Rotation Degrees="-45" />
+			</Rectangle>
+
+			<Clicked>
+				<Toggle Target="onSidePanel" />
+			</Clicked>
+		</Panel>-->
+
+		<Rectangle Height="40" />
+		<SideMenuButton>
+			<Text Font="han" FontSize="20" Alignment="Center" Color="#fff" Value="저장 물건" />
+		</SideMenuButton>
+
+		<Each Items="{savedItems}">
+			<SideMenuButton>
+				<Text Font="han" FontSize="20" Alignment="Center" Color="#fff" Value="{CLTR_NO}" />
+			</SideMenuButton>
+		</Each>
+	</StackPanel>
+</DockPanel>

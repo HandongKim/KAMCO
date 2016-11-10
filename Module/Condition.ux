@@ -59,10 +59,15 @@
 			</contentsBox>
 
 			<titleBox>
-				<titleText Font="han" Value="자산구분" Alignment="Center" />
+				<titleText Font="han" Value="최저입찰가격" Alignment="Center" />
 			</titleBox>
 			<contentsBox>
-				<Grid ColumnCount="5" Alignment="Center" CellSpacing="2" Width="100%">
+				<WrapPanel Alignment="Center">
+					<TextBox Value="{condition.minPrice}" PlaceholderText="하한가격" Width="140" />
+					<Text Alignment="Center" Font="han" Color="#000" FontSize="20" Value=" ~ " />
+					<TextBox Value="{condition.maxPrice}" Width="140" PlaceholderText="상한가격" />
+				</WrapPanel>
+<!--				<Grid ColumnCount="5" Alignment="Center" CellSpacing="2" Width="100%">
 					<Each Items="{condition.assetType}">
 						<selectButton ux:Name="selectButton">
 							<Text ux:Name="buttonText" Font="han" FontSize="20" Color="#18f" Value="{name}" Alignment="Center" />
@@ -76,7 +81,7 @@
 							</WhileTrue>
 						</selectButton>
 					</Each>
-				</Grid>
+				</Grid>-->
 			</contentsBox>
 		</StackPanel>
 

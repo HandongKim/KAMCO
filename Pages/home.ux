@@ -7,20 +7,51 @@
 
 		var conditions = Observable();
 
-		Storage.read("conditions.txt").then(function(data) {
-			var temp = JSON.parse(data);
-			temp.forEach(function(item) {
-				conditions.add(item);
-			})
-		});
+		var condition = {
+				name: "조건추가",
+			    sellType: "전체",
+			    date: "7일 이내",
+			    assetType: [
+			    	{name: "캠코\n압류", selected: false},
+					{name: "캠코\n국유", selected: false},
+					{name: "캠코\n수탁", selected: false},
+					{name: "캠코\n유입", selected: false},
+					{name: "이용\n기관", selected: false}
+			    ],
+			    sido: "전체",
+			    sgk: "전체",
+			    emd: "전체",
+			    usage: [
+			    	{name: "부동산", selected: false},
+					{name: "자동차", selected: false},
+					{name: "물품\n기계", selected: false},
+					{name: "권리\n증권", selected: false},
+					{name: "기타", selected: false},
+					{name: "전체", selected: false}
+			    ],
+			    minPrice: "",
+			    maxPrice: ""
+			};
+
+		startPage();
+
+		function startPage() {
+			conditions.clear();
+			Storage.read("conditions.txt").then(function(data) {
+				var temp = JSON.parse(data);
+				temp.forEach(function(item) {
+					conditions.add(item);
+				})
+			});
+		}
 
 		module.exports = {
-			conditions,
+			conditions, startPage,
 			goSearchData: function() {
 				router.push("searchData");
 			},
 			goConditionSetting: function() {
-				router.push("conditionSetting");
+				router.push("conditionSetting", condition);
 			},
 			changeCondition: function(arg) {
 				router.push("conditionSetting", arg.data);
@@ -45,6 +76,10 @@
 		}
 	</JavaScript>
 
+	<ActivatingAnimation>
+		<Callback Handler="{startPage}" />
+	</ActivatingAnimation>
+
 	<DockPanel>
 		<Panel Height="50" Dock="Top">
 			<Text Font="han" FontSize="30" Alignment="Center" Value="온비드 간편검색" />
@@ -54,46 +89,23 @@
 				<Each Items="{conditions}">
 					<homeButton />
 				</Each>
-				<Panel Width="40%" BoxSizing="FillAspect" Aspect="1" Alignment="Center" Background="#1eb1ed" Margin="3">
-					<Rectangle Width="80%" Height="30%" Color="#4f6ac5" ZOffset=".9" Alignment="Center" />
-					<Rectangle Width="30%" Height="80%" Color="#4f6ac5" ZOffset=".9" Alignment="Center" />
-					<Rectangle Width="82%" Height="32%" Color="#000" ZOffset=".8" Alignment="Center" />
-					<Rectangle Width="32%" Height="82%" Color="#000" ZOffset=".8" Alignment="Center" />
-					<Text Font="han" FontSize="24" Color="#fff" Value="조건추가" Alignment="Center" ZOffset="1" />
+
+				<Panel Width="90" BoxSizing="FillAspect" Aspect="1" Alignment="CenterRight" Margin="3">
+					<Text Font="han" FontSize="19" Color="#fff" Value="조건추가" Alignment="Center" />
+					<Rectangle Width="80" Height="28" Color="#4f6ac5" Alignment="Center" CornerRadius="3" />
+					<Rectangle Width="28" Height="80" Color="#4f6ac5" Alignment="Center" CornerRadius="3" />
+					<Rectangle Width="84" Height="32" Color="#000" Alignment="Center" CornerRadius="4" />
+					<Rectangle Width="32" Height="84" Color="#000" Alignment="Center" CornerRadius="4" />
 
 					<Clicked>
 						<Callback Handler="{goConditionSetting}" />
 					</Clicked>
+
+					<LayoutAnimation>
+						<Move RelativeTo="PositionChange" Y="1" Duration=".2" Easing="CubicOut"/>
+					</LayoutAnimation>
 				</Panel>
 			</StackPanel>
 		</ScrollView>
 	</DockPanel>
-<!--
-	<StackPanel>
-		<Grid ColumnCount="4" Columns="1*, 1*, 1*, 1*" RowCount="4" Rows="1*, 1*, 1*, 1*" CellSpacing="3" Width="100%" BoxSizing="FillAspect" Aspect="1" Margin="3">
-			<menuButton ColumnSpan="4" Color="#19f" Clicked="{goSearchData}">
-				<Text Font="han" Value="일반 검색" FontSize="30" Alignment="Center" />
-			</menuButton>
-
-			<menuButton ColumnSpan="2" Color="#7d2" Clicked="{goConditionSearch}">
-				<Text Font="han" Value="한방 검색" FontSize="30" Alignment="Center" />
-			</menuButton>
-
-			<menuButton Color="#e89" Clicked="{goConditionSetting}">
-				<Text Font="han" Value="조건 설정" FontSize="20" Alignment="Center" />
-			</menuButton>
-
-			<menuButton Color="#d9c" Clicked="{goMakingPage}">
-				<Text Font="han" Value="임시" FontSize="20" Alignment="Center" />
-			</menuButton>
-
-			<menuButton Color="#872" ColumnSpan="2" RowSpan="2" Clicked="{goScrollingAnimation}">
-				<Text Font="han" Value="스크롤 예제" FontSize="20" Alignment="Center" />
-			</menuButton>
-			<menuButton Color="#eee" Clicked="{goAnimation}">
-				<Text Font="han" Value="시작화면" FontSize="15" Alignment="Center" />
-			</menuButton>
-		</Grid>
-	</StackPanel>
--->
 </Page>

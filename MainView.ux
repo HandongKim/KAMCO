@@ -1,4 +1,4 @@
-<App>
+<App Background="#f3f3f3">
 	<Router ux:Name="router" />
 
 	<JavaScript>
@@ -14,7 +14,8 @@
 	<ClientPanel>
 		<SideMenu ux:Name="sideMenu" Width="40%" Offset="-40%, 0" Alignment="Left"/>
 		
-		<Circle ux:Name="menuToggle" Alignment="BottomRight" Color="#356" Width="40" Height="40" Margin="5">
+		<Circle ux:Name="menuToggle" Alignment="BottomRight" Color="#356a" Width="40" Height="40" Margin="10">
+			<Draggable />
 			<Text Color="#fff" FontSize="13" Value="Menu" Alignment="Center" />
 			<Clicked>
 				<Toggle Target="onSidePanel" />
@@ -22,7 +23,7 @@
 		</Circle>
 
 		<DockPanel>
-			<Navigator ux:Name="Contents" DefaultTemplate="welcomeAnimation">
+			<Navigator ux:Name="Contents" DefaultPath="welcomeAnimation">
 				<welcomeAnimation ux:Template="welcomeAnimation" router="router" />
 				<home ux:Template="home" router="router" />
 				<searchData ux:Template="searchData" router="router" />

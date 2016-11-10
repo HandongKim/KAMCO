@@ -12,7 +12,9 @@ var condition = data.map(function(item){
 		sido: item.sido,
 		sgk: item.sgk,
 		emd: item.emd,
-		usage: item.usage
+		usage: item.usage,
+		minPrice: item.minPrice,
+		maxPrice: item.maxPrice,
 /*		,
 		usageTop: item.usageTop,
 		usageMiddle: item.usageMiddle,
@@ -80,8 +82,8 @@ function callDate(year, month, date) {
 
 //시도 구역 선택
 function selectSido(arg) {
-	condition.value.sgk.value = "시군구";
-	condition.value.emd.value = "읍면동";
+	condition.value.sgk.value = "전체";
+	condition.value.emd.value = "전체";
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.sido.value = "0";
 }
@@ -104,13 +106,13 @@ function getSido() {
 }
 //시군구 구역 선택
 function selectSgk(arg) {
-	condition.value.emd.value = "읍면동";
+	condition.value.emd.value = "전체";
 	showPanel.base.value = !showPanel.base.value;
 	showPanel.sgk.value = "0";
 }
 //시군구 구역 받아오기
 function getSgk() {
-	if (condition.value.sido.value != "시도") {
+	if (condition.value.sido.value != "전체") {
 		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr2Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&ADDR1='+encodeURI(condition.value.sido.value);
 
 		options.sgk.clear();
@@ -133,7 +135,7 @@ function selectEmd(arg) {
 }
 //읍면동 구역 받아오기
 function getEmd() {
-	if (condition.value.sgk.value != "시군구") {
+	if (condition.value.sgk.value != "전체") {
 		var url = 'http://openapi.onbid.co.kr/openapi/services/OnbidCodeInfoInquireSvc/getOnbidAddr3Info?ServiceKey=LEVQhgclvGUKoC%2BJrvokKajzK6OsTFRinprds4qBzZj1PJMDZUQ8SRTm0lmzbj1jzC9IaZLqEm1G%2FhAdHV5R5A%3D%3D&numOfRows=999&ADDR2='+encodeURI(condition.value.sgk.value);
 
 		options.emd.clear();

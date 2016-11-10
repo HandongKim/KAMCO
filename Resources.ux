@@ -1,5 +1,5 @@
 <Panel>
-	<Rectangle ux:Class="SideMenuButton" Width="95%" Height="30" Color="#333" Margin="5">
+	<Rectangle ux:Class="SideMenuButton" Width="95%" Height="30" Color="#888" Margin="5">
 		<WhilePressed>
 			<Scale Factor=".9" Duration=".05" />
 		</WhilePressed>
@@ -36,19 +36,64 @@
 		<Shadow />
 	</Rectangle>
 
+<!--
+	(f39fa1, fab9ba, fcd3bb), fbebbc, (c4fcbc, 8fd2af, 75c4be), bae8fb, c1bcfb, edbdfd
+-->
+	<Rectangle ux:Class="homeBtnRec" CornerRadius="3" Margin="2" Height="20" />
+	<Text ux:Class="homeBtnText" Font="han" FontSize="15" Alignment="Center" Color="#000"/>
+	<Text ux:Class="homeBtnSmallText" Font="han" FontSize="7" Alignment="Center" Color="#000" />
 	<Panel ux:Class="homeButton" Margin="3, 3, 3, 0">
 		<Rectangle ux:Name="contentsRec" Color="#1eb1ed" CornerRadius="3">
-			<WrapPanel Alignment="CenterLeft">
-				<Text Font="han" Value="{number}" Alignment="Center" Color="#000" />
+			<Stroke Width="1" Color="#888" />
+			<StackPanel>
+				<Grid Columns="1*, 2*, 2*, 2*, 2*" RowCount="1" Alignment="Center" Width="95%">
+					<homeBtnRec Color="#FBEBBC">
+						<homeBtnText Value="{sellType}" />
+					</homeBtnRec>
 
-				<Rectangle CornerRadius="3" Color="Green" Margin="2" Height="20">
-					<Text Font="han" FontSize="15" Alignment="Center" Color="#fff" Value="{sellType}" />
-				</Rectangle>
+					<homeBtnRec Color="#F39FA1">
+						<homeBtnText Value="{sido}" MaxLength="4" />
+					</homeBtnRec>
+					<homeBtnRec Color="#FAB9BA">
+						<homeBtnText Value="{sgk}" />
+					</homeBtnRec>
+					<homeBtnRec Color="#FCD3BB">
+						<homeBtnText Value="{emd}" />
+					</homeBtnRec>
 
-				<Rectangle CornerRadius="3" Color="Yellow" Margin="2" Height="20">
-					<Text Font="han" FontSize="15" Alignment="Center" Color="#000" Value="{sido}" />
-				</Rectangle>
-			</WrapPanel>
+					<homeBtnRec Color="#C4FCBC">
+						<homeBtnText Value="{date}" MaxLength="3"/>
+					</homeBtnRec>
+				</Grid>
+				<Grid Width="95%" Columns="3*,0.4*,3*,1*,1*,1*,1*,1*,1*">
+					<homeBtnRec Color="#C1BCFB">
+						<homeBtnSmallText FontSize="15" Value="{minPrice}" />
+					</homeBtnRec>
+					<Text Value="~" Alignment="Center"/>
+					<homeBtnRec Color="#C1BCFB">
+						<homeBtnSmallText FontSize="15" Value="{maxPrice}" />
+					</homeBtnRec>
+
+<!--					<Each Items="{assetType}">
+						<homeBtnRec ux:Name="asset" Color="#C1BCFB" Opacity="0">
+							<homeBtnSmallText Value="{name}"/>
+
+							<WhileTrue Value="{selected}">
+								<Change asset.Opacity="1" />
+							</WhileTrue>
+						</homeBtnRec>
+					</Each>-->
+					<Each Items="{usage}">
+						<homeBtnRec ux:Name="usageRec" Color="#BAE8FB" Opacity="0">
+							<homeBtnSmallText Value="{name}"/>
+
+							<WhileTrue Value="{selected}">
+								<Change usageRec.Opacity="1" />
+							</WhileTrue>
+						</homeBtnRec>
+					</Each>
+				</Grid>
+			</StackPanel>
 
 			<Clicked>
 				<Callback Handler="{goConditionSearch}" />
@@ -57,6 +102,7 @@
 		</Rectangle>
 
 		<Rectangle ux:Name="changeRec" Width="50" Height="50" Color="#1eb1ed" CornerRadius="3" Opacity="0" Alignment="CenterRight" Offset="52, 0" Margin="1, 0">
+			<Stroke Width="1" Color="#888" />
 			<Text Value="수정" Font="han" FontSize="20" Alignment="Center" Color="#000" TextWrapping="Wrap" Width="20" />
 			<Clicked>
 				<Set buttonChange.Value="false" />
@@ -64,6 +110,7 @@
 			</Clicked>
 		</Rectangle>
 		<Rectangle ux:Name="deleteRec" Width="50" Height="50" Color="#1eb1ed" CornerRadius="3" Opacity="0" Alignment="CenterRight" Offset="102, 0">
+			<Stroke Width="1" Color="#888" />
 			<Text Value="삭제" Font="han" FontSize="20" Alignment="Center" Color="#000" TextWrapping="Wrap" Width="20" />
 			<Clicked>
 				<Set buttonChange.Value="false" />
@@ -88,11 +135,15 @@
 		</WhileTrue>
 
 		<AddingAnimation>
-			<Move X="1" RelativeTo="Size" Duration=".4" Easing="BounceInOut" DurationBack=".2" DelayBack="{delay}" />
+			<Move X="1.1" RelativeTo="Size" Duration=".4" Easing="BounceInOut" DurationBack=".2" DelayBack="{delay}" />
 		</AddingAnimation>
 
 		<RemovingAnimation>
 			<Move X="-2" RelativeTo="Size" Duration=".2" Easing="BackOut" />
 		</RemovingAnimation>
+
+		<LayoutAnimation>
+			<Move RelativeTo="PositionChange" Y="1" Duration=".2" Easing="CubicOut"/>
+		</LayoutAnimation>
 	</Panel>
 </Panel>
