@@ -12,14 +12,14 @@
 	<ux:Include File="Resources.ux" />
 
 	<ClientPanel>
-		<SideMenu ux:Name="sideMenu" Width="40%" Offset="-40%, 0" Visibility="Hidden" Alignment="Left" />
+<!--		<SideMenu ux:Name="sideMenu" Width="40%" Offset="-40%, 0" Visibility="Hidden" Alignment="Left" /> -->
 		
 		<Circle ux:Name="menuToggle" Alignment="BottomRight" Color="#356a" Width="40" Height="40" Margin="10">
-			<Draggable />
 			<Text Color="#fff" FontSize="13" Value="Menu" Alignment="Center" />
 			<Clicked>
 				<Toggle Target="onSidePanel" />
 			</Clicked>
+			<Draggable />
 		</Circle>
 
 		<DockPanel>
@@ -52,4 +52,58 @@
 			<Change Contents.Offset="40%, 0" Duration=".1" DurationBack=".05" />
 		</WhileTrue>
 	</ClientPanel>
+
+	<DockPanel Background="#f3f3f3" ux:Name="sideMenu" Width="40%" Offset="-40%, 0" Visibility="Hidden" Alignment="Left">
+		<JavaScript>
+			var Observable = require('FuseJS/Observable');
+			var Storage = require('FuseJS/Storage');
+
+			var savedItems = Observable();
+
+			function loadItems() {
+				savedItems.clear();
+				Storage.read("saveItems.txt").then(function(data) {
+					var temp = JSON.parse(data);
+					temp.forEach(function(item) {
+						savedItems.add(item);
+					})
+				});	
+			}
+
+			function deleteItem(arg) {
+				savedItems.remove(arg.data);
+
+				Storage.write("saveItems.txt", JSON.stringify(savedItems.toArray()));
+			}
+
+			module.exports = {
+				savedItems, loadItems, deleteItem,
+				goDetailData: function(arg) {
+					router.push("detailData", arg.data);
+				}
+			};
+		</JavaScript>
+
+		<Rectangle Width="2" Color="#fff" Dock="Right"/>
+		<StackPanel>
+			<Rectangle Height="40" />
+			<Rectangle Width="100%" Height="30" Color="#444" Margin="5">
+				<Text Font="han" FontSize="20" Alignment="Center" Color="#fff" Value="저장 물건" />
+				<Shadow />
+			</Rectangle>
+
+			<Each Items="{savedItems}">
+				<SideMenuButton>
+					<Clicked>
+						<Callback Handler="{goDetailData}" />
+						<Set onSidePanel.Value="false" />
+					</Clicked>
+				</SideMenuButton>
+			</Each>
+		</StackPanel>
+
+		<WhileVisible>
+			<Callback Handler="{loadItems}" />
+		</WhileVisible>
+	</DockPanel>
 </App>

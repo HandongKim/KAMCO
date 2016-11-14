@@ -21,26 +21,16 @@
 			Storage.write("saveItems.txt", JSON.stringify(savedItems.toArray()));
 		}
 
-		module.exports = { savedItems, loadItems, deleteItem };
+		module.exports = {
+			savedItems, loadItems, deleteItem,
+			goDetailData: function(arg) {
+				router.push("detailData", arg.data);
+			}
+		};
 	</JavaScript>
 
 	<Rectangle Width="2" Color="#fff" Dock="Right"/>
 	<StackPanel>
-	<!--	<Panel Alignment="Right" Margin="5">
-			<Circle Alignment="Center" Color="#ee432f" Width="30" Height="30" ZOffset="0.2" />
-			<Circle Alignment="Center" Color="#ae31ee" Width="34" Height="34" ZOffset="0.1" />
-			<Rectangle Alignment="Center" Color="#000" Width="20" Height="2" CornerRadius="5" ZOffset="0.3" >
-				<Rotation Degrees="45" />
-			</Rectangle>
-			<Rectangle Alignment="Center" Color="#000" Width="20" Height="2" CornerRadius="5" ZOffset="0.3" >
-				<Rotation Degrees="-45" />
-			</Rectangle>
-
-			<Clicked>
-				<Toggle Target="onSidePanel" />
-			</Clicked>
-		</Panel>-->
-
 		<Rectangle Height="40" />
 		<Rectangle Width="100%" Height="30" Color="#444" Margin="5">
 			<Text Font="han" FontSize="20" Alignment="Center" Color="#fff" Value="저장 물건" />
@@ -48,7 +38,11 @@
 		</Rectangle>
 
 		<Each Items="{savedItems}">
-			<SideMenuButton />
+			<SideMenuButton>
+				<Clicked>
+					<Callback Handler="{goDetailData}" />
+				</Clicked>
+			</SideMenuButton>
 		</Each>
 	</StackPanel>
 
