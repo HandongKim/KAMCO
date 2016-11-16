@@ -1,0 +1,21 @@
+<Page ux:Class="modifyingCondition">
+	<Router ux:Dependency="router" />
+	<JavaScript File="modifyingCondition.js" />
+
+	<DockPanel>
+		<Panel Height="40" Dock="Top" Background="#eee">
+			<Text Font="han" FontSize="30" Alignment="Center" Color="#000" Value="검색 조건 설정" />
+		</Panel>
+		<StackPanel Background="#f3f3f3" Dock="Fill">
+			<Condition Selected="{condition}" />
+			<WrapPanel ItemWidth="150" Alignment="Center">
+				<BasicButton Clicked="{saveCondition}">
+					<Text Font="han" FontSize="20" Color="#fff" Alignment="Center" Value="저장" />
+				</BasicButton>
+				<BasicButton Clicked="{goBack}">
+					<Text Font="han" FontSize="20" Color="#fff" Alignment="Center" Value="취소" />
+				</BasicButton>
+			</WrapPanel>
+		</StackPanel>
+	</DockPanel>
+</Page>

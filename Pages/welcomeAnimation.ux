@@ -10,19 +10,20 @@
 			.then(function(result) {
 				var wifiEnabled = result.wifi;
 				if (wifiEnabled == 1) {
-					showText.value = "Wifi 연결이 되어있습니다.";
+					goHome();
 				} else {
-					showText.value = "Wifi 연결이 되어있지 않습니다.";
+					showText.value = "Wifi 연결을 하시면 위치정확도가 올라갑니다.";
 				}
 			}, function(err) {
 				console.log("Error" + err);
 			});
 
+		function goHome() {
+			router.goto("home");
+		}
+
 		module.exports = {
-			showText,
-			goHome: function(){
-				router.goto("home", {});
-			}
+			showText, goHome
 		};
 	</JavaScript>
 

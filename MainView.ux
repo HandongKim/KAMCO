@@ -1,25 +1,49 @@
-<App Background="#f3f3f3">
+<App Background="#eee">
 	<Router ux:Name="router" />
 
 	<JavaScript>
+		var Observable = require('FuseJS/Observable');
+		var Storage = require('FuseJS/Storage');
+
+		var savedItems = Observable();
+
+		function loadItems() {
+			savedItems.clear();
+			Storage.read("saveItems.txt").then(function(data) {
+				var temp = JSON.parse(data);
+				temp.forEach(function(item) {
+					savedItems.add(item);
+				});
+			});	
+		}
+
+		function deleteItem(arg) {
+			savedItems.remove(arg.data);
+
+			Storage.write("saveItems.txt", JSON.stringify(savedItems.toArray()));
+		}
+
 		module.exports = {
-			go: function() {
-				router.push("conditionSearch");
+			savedItems, loadItems, deleteItem,
+			goDetailData: function(arg) {
+				router.push("detailData", arg.data);
 			}
 		};
 	</JavaScript>
 
 	<ux:Include File="Resources.ux" />
 
-	<ClientPanel>
-<!--		<SideMenu ux:Name="sideMenu" Width="40%" Offset="-40%, 0" Visibility="Hidden" Alignment="Left" /> -->
-		
+	<ClientPanel>		
 		<Circle ux:Name="menuToggle" Alignment="BottomRight" Color="#356a" Width="40" Height="40" Margin="10">
 			<Text Color="#fff" FontSize="13" Value="Menu" Alignment="Center" />
-			<Clicked>
+			<WhileTrue ux:Name="Activated">
+				<Change menuToggle.Color="Red" />
+				<Draggable />
+			</WhileTrue>
+
+			<Tapped>
 				<Toggle Target="onSidePanel" />
-			</Clicked>
-			<Draggable />
+			</Tapped>
 		</Circle>
 
 		<DockPanel>
@@ -29,7 +53,8 @@
 				<searchData ux:Template="searchData" router="router" />
 				<detailData ux:Template="detailData" router="router" />
 				<conditionSearch ux:Template="conditionSearch" router="router" />
-				<conditionSetting ux:Template="conditionSetting" router="router" />
+				<addingCondition ux:Template="addingCondition" router="router" />
+				<modifyingCondition ux:Template="modifyingCondition" router="router" />
 				<makingPage ux:Template="makingPage" router="router" />
 				<scrollingAnimation ux:Template="scrollingAnimation" router="router" />
 			</Navigator>
@@ -53,37 +78,7 @@
 		</WhileTrue>
 	</ClientPanel>
 
-	<DockPanel Background="#f3f3f3" ux:Name="sideMenu" Width="40%" Offset="-40%, 0" Visibility="Hidden" Alignment="Left">
-		<JavaScript>
-			var Observable = require('FuseJS/Observable');
-			var Storage = require('FuseJS/Storage');
-
-			var savedItems = Observable();
-
-			function loadItems() {
-				savedItems.clear();
-				Storage.read("saveItems.txt").then(function(data) {
-					var temp = JSON.parse(data);
-					temp.forEach(function(item) {
-						savedItems.add(item);
-					})
-				});	
-			}
-
-			function deleteItem(arg) {
-				savedItems.remove(arg.data);
-
-				Storage.write("saveItems.txt", JSON.stringify(savedItems.toArray()));
-			}
-
-			module.exports = {
-				savedItems, loadItems, deleteItem,
-				goDetailData: function(arg) {
-					router.push("detailData", arg.data);
-				}
-			};
-		</JavaScript>
-
+	<DockPanel Background="#ddd" ux:Name="sideMenu" Width="40%" Offset="-40%, 0" Visibility="Hidden" Alignment="Left">
 		<Rectangle Width="2" Color="#fff" Dock="Right"/>
 		<StackPanel>
 			<Rectangle Height="40" />

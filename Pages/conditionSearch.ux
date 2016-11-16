@@ -98,7 +98,7 @@
 			</ScrollingAnimation>
 			<StackPanel Dock="Fill">
 				<Each Items="{showItems}">
-					<Rectangle CornerRadius="3" Margin="3, 3, 3, 0" Clicked="{goDetail}">
+					<Rectangle CornerRadius="3" Margin="3, 3, 3, 0" Clicked="{goDetail}" Color="#fff">
 						<Stroke Color="#000" Width="1"/>
 						<StackPanel Margin="3">
 							<homeBtnText Font="han" FontSize="17" Value="{item.CLTR_NM}" TextWrapping="Wrap" />

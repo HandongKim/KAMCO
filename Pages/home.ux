@@ -7,32 +7,6 @@
 
 		var conditions = Observable();
 
-		var condition = {
-				name: "조건추가",
-			    sellType: "전체",
-			    date: "7일 이내",
-			    assetType: [
-			    	{name: "캠코\n압류", selected: false},
-					{name: "캠코\n국유", selected: false},
-					{name: "캠코\n수탁", selected: false},
-					{name: "캠코\n유입", selected: false},
-					{name: "이용\n기관", selected: false}
-			    ],
-			    sido: "전체",
-			    sgk: "전체",
-			    emd: "전체",
-			    usage: [
-			    	{name: "부동산", selected: false},
-					{name: "자동차", selected: false},
-					{name: "물품\n기계", selected: false},
-					{name: "권리\n증권", selected: false},
-					{name: "기타", selected: false},
-					{name: "전체", selected: false}
-			    ],
-			    minPrice: "",
-			    maxPrice: ""
-			};
-
 		startPage();
 
 		function startPage() {
@@ -47,14 +21,11 @@
 
 		module.exports = {
 			conditions, startPage,
-			goSearchData: function() {
-				router.push("searchData");
+			goAddingCondition: function() {
+				router.push("addingCondition");
 			},
-			goConditionSetting: function() {
-				router.push("conditionSetting", condition);
-			},
-			changeCondition: function(arg) {
-				router.push("conditionSetting", arg.data);
+			goModifyingCondition: function(arg) {
+				router.push("modifyingCondition", arg.data);
 			},
 			deleteCondition: function(arg) {
 				var i = arg.data.number;
@@ -81,11 +52,12 @@
 	</ActivatingAnimation>
 
 	<DockPanel>
-		<Panel Height="50" Dock="Top">
-			<Text Font="han" FontSize="30" Alignment="Center" Value="온비드 간편검색" />
+		<Panel Height="50" Dock="Top" Color="#fff">
+			<Text Font="han" Color="#000" FontSize="30" Alignment="Center" Value="온비드 간편검색" />
 		</Panel>
 		<ScrollView Dock="Fill" SnapMinTransform="false" SnapMaxTransform="false">
-			<StackPanel Background="#f3f3f3">
+			<StackPanel>
+				<Rectangle Height="5" />
 				<Each Items="{conditions}">
 					<homeButton />
 				</Each>
@@ -98,7 +70,7 @@
 					<Rectangle Width="32" Height="84" Color="#000" Alignment="Center" CornerRadius="4" />
 
 					<Clicked>
-						<Callback Handler="{goConditionSetting}" />
+						<Callback Handler="{goAddingCondition}" />
 					</Clicked>
 
 					<LayoutAnimation>

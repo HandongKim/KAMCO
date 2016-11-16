@@ -1,6 +1,6 @@
-<Page ux:Class="conditionSetting">
+<Page ux:Class="addingCondition">
 	<Router ux:Dependency="router" />
-	<JavaScript File="conditionSetting.js" />
+	<JavaScript File="addingCondition.js" />
 
 	<DockPanel>
 		<Panel Height="40" Dock="Top" Background="#eee">
